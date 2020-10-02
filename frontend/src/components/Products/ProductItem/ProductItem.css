@@ -1,0 +1,16 @@
+.product-item .product-item-title {
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+
+.product-item .product-item-text {
+  margin-bottom: 0.5rem;
+}
+
+.product-item .product-item-text,
+.product-item .product-item-title {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}

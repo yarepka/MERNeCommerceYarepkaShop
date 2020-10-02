@@ -1,0 +1,196 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+:root {
+  --light-color: #f9f7f7;
+  --secondary-color: #dbe2ef;
+  --primary-color: #3f72af;
+  --dark-color: #112d4e;
+  --text-color: #333;
+}
+
+/* *Global* */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
+  line-height: 1.6rem;
+}
+
+h1,
+h2 {
+  letter-spacing: 0.4rem;
+}
+
+h3,
+h4 {
+  letter-spacing: 0.2rem;
+}
+
+h5,
+h6 {
+  letter-spacing: 0.1rem;
+}
+
+ul {
+  list-style: none;
+}
+
+main {
+  min-height: 80vh;
+}
+
+img {
+  width: 100%;
+}
+
+a {
+  text-decoration: none;
+  color: var(--text-color);
+}
+
+button {
+  border: none;
+}
+
+button:focus {
+  outline: none;
+}
+
+/* *Utility Classes* */
+.brand {
+  font-size: 1.5rem !important;
+  text-transform: uppercase;
+}
+
+.rounded {
+  border-radius: 6px;
+}
+
+/* -- Buttons -- */
+.btn {
+  text-decoration: none;
+  font-size: 1rem;
+  color: var(--light-color);
+  display: inline-block;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-light {
+  background-color: var(--light-color);
+  color: var(--text-color);
+}
+
+.btn-dark {
+  padding: 0.5rem 1rem;
+  background-color: var(--dark-color);
+  color: var(--light-color);
+}
+
+.btn-block {
+  display: block;
+  width: 100%;
+}
+
+.btn:focus {
+  outline: none;
+}
+
+.btn:hover {
+  opacity: 0.8;
+}
+
+/* -- Backgrounds -- */
+.bg-light {
+  background: var(--light-color);
+  color: var(--text-color);
+}
+
+.bg-secondary {
+  background: var(--secondary-color);
+  color: var(--text-color);
+}
+
+.bg-primary {
+  background: var(--primary-color);
+  color: var(--light-color);
+}
+
+.bg-dark {
+  background: var(--dark-color);
+  color: var(--light-color);
+}
+
+/* -- Text -- */
+.text-uppercase {
+  text-transform: uppercase;
+}
+
+.text-centered {
+  text-align: center;
+}
+
+/* -- Paddings -- */
+/* - x&y - */
+.p-1 {
+  padding: 1rem;
+}
+.p-2 {
+  padding: 2rem;
+}
+.p-3 {
+  padding: 3rem;
+}
+/* - x - */
+.px-1 {
+  padding: 0 1rem;
+}
+.px-2 {
+  padding: 0 2rem;
+}
+.px-3 {
+  padding: 0 3rem;
+}
+/* - y - */
+.py-1 {
+  padding: 1rem 0;
+}
+.py-2 {
+  padding: 2rem 0;
+}
+.py-3 {
+  padding: 3rem 0;
+}
+
+/* -- Margins -- */
+/* - x&y - */
+.m-1 {
+  margin: 1rem;
+}
+.m-2 {
+  margin: 2rem;
+}
+.m-3 {
+  margin: 3rem;
+}
+/* - x - */
+.mx-1 {
+  margin: 0 1rem;
+}
+.mx-2 {
+  margin: 0 2rem;
+}
+.mx-3 {
+  margin: 0 3rem;
+}
+/* - y - */
+.my-1 {
+  margin: 1rem 0;
+}
+.my-2 {
+  margin: 2rem 0;
+}
+.my-3 {
+  margin: 3rem 0;
+}
