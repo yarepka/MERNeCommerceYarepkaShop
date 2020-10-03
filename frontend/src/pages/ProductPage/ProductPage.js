@@ -24,7 +24,7 @@ const ProductPage = ({ match }) => {
         <Message type='danger'>{error}</Message>
       ) : (
         <Fragment>
-          <Link className='btn btn-light p-1 my-1' to='/'>
+          <Link className='btn btn-light p-1 my-1 bg-grey' to='/'>
             Go Back
           </Link>
 

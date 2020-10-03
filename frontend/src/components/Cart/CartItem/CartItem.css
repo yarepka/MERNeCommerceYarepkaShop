@@ -1,0 +1,6 @@
+.cart-item {
+  padding: 1rem;
+  display: grid;
+  grid-template-columns: 2fr 3fr repeat(3, 2fr);
+  grid-gap: 1rem;
+}

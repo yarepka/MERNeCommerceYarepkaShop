@@ -66,6 +66,17 @@ button:disabled:hover {
   opacity: 0.6;
 }
 
+select {
+  border: none;
+  font-size: 1rem;
+  background-color: #f4f4f4;
+  padding: 0.5rem 1.5rem;
+}
+
+select:focus {
+  outline: none;
+}
+
 /* *Utility Classes* */
 .brand {
   font-size: 1.5rem !important;
@@ -76,6 +87,23 @@ button:disabled:hover {
   border-radius: 6px;
 }
 
+.flex {
+  display: flex;
+}
+
+.flex-justify-content-space-between {
+  justify-content: space-between;
+}
+
+.flex-align-center {
+  align-items: center;
+}
+
+.grid-not-stretch {
+  min-width: auto;
+  min-height: auto;
+}
+
 /* -- Buttons -- */
 .btn {
   text-decoration: none;
@@ -84,11 +112,17 @@ button:disabled:hover {
   display: inline-block;
   border: none;
   cursor: pointer;
+  transition: background-color 0.25s ease;
 }
 
 .btn-light {
-  background-color: var(--light-color);
+  padding: 0.5rem 1rem;
+  background-color: #fff;
   color: var(--text-color);
+}
+
+.btn-light:hover {
+  background-color: var(--light-color);
 }
 
 .btn-dark {
@@ -100,6 +134,10 @@ button:disabled:hover {
 .btn-block {
   display: block;
   width: 100%;
+}
+
+.btn-underlined {
+  text-decoration: underline;
 }
 
 .btn:focus {
@@ -131,6 +169,11 @@ button:disabled:hover {
   color: var(--light-color);
 }
 
+.bg-grey {
+  background: #f4f4f4;
+  color: var(--text-color);
+}
+
 /* -- Text -- */
 .text-uppercase {
   text-transform: uppercase;
@@ -140,8 +183,20 @@ button:disabled:hover {
   text-align: center;
 }
 
+.text-medium {
+  font-size: 1.3rem;
+}
+
+.text-large {
+  font-size: 2rem;
+}
+
 /* -- Paddings -- */
 /* - x&y - */
+.p-0 {
+  padding: 0 !important;
+}
+
 .p-1 {
   padding: 1rem;
 }

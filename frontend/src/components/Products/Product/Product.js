@@ -1,10 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { withRouter } from 'react-router-dom';
 
 import Card from '../../Card/Card';
 import Rating from '../Rating/Rating';
 import './Product.css';
 
-const Product = ({ product }) => {
+const Product = ({ product, match, history }) => {
+  const [qty, setQty] = useState(1);
+
+  const addToCardHandler = () => {
+    history.push(`/cart/${match.params.id}?qty=${qty}`);
+  };
+
   return (
     <div className='product'>
       <img src={product.image} />
@@ -21,7 +28,7 @@ const Product = ({ product }) => {
         <li>Price: ${product.price}</li>
         <li>Description: {product.description}</li>
       </ul>
-      <Card>
+      <Card className='p-0'>
         <ul className='product-price-status-cart'>
           <li>
             <div>Price: </div>
@@ -33,8 +40,23 @@ const Product = ({ product }) => {
             <div>Status: </div>
             <div>{product.countInStock > 0 ? 'In Stock' : 'Out Of Stock'}</div>
           </li>
+          {product.countInStock > 0 && (
+            <li className='flex-align-center'>
+              <div>Qty</div>
+              <div>
+                <select value={qty} onChange={(e) => setQty(e.target.value)}>
+                  {[...Array(product.countInStock).keys()].map((el, index) => (
+                    <option key={index + 1} value={index + 1}>
+                      {index + 1}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </li>
+          )}
           <li>
             <button
+              onClick={addToCardHandler}
               type='button'
               className='btn btn-dark btn-block text-uppercase'
               disabled={!product.countInStock > 0}
@@ -48,4 +70,4 @@ const Product = ({ product }) => {
   );
 };
 
-export default Product;
+export default withRouter(Product);

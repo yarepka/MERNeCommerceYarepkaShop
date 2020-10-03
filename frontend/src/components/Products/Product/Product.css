@@ -8,24 +8,17 @@
   align-self: flex-start;
 }
 
-.product .product-info li {
-  padding: 1rem;
-}
-
-.product .product-info li:not(:last-of-type) {
-  border-bottom: 1px solid #f4f4f4;
-}
-
-.product .card {
-  padding: 0;
-}
-
 .product .product-price-status-cart li {
   display: flex;
   justify-content: space-between;
   padding: 0.75rem 1rem;
 }
 
+.product .product-info li {
+  padding: 1rem;
+}
+
+.product .product-info li:not(:last-of-type),
 .product .product-price-status-cart li:not(:last-of-type) {
   border-bottom: 1px solid #f4f4f4;
 }
