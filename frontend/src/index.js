@@ -4,10 +4,13 @@ import { BrowserRouter } from 'react-router-dom';
 
 import './index.css';
 import App from './App';
+import Root from './Root';
 
 ReactDOM.render(
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>,
+  <Root>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </Root>,
   document.getElementById('root')
 );

@@ -57,6 +57,15 @@ button:focus {
   outline: none;
 }
 
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+button:disabled:hover {
+  opacity: 0.6;
+}
+
 /* *Utility Classes* */
 .brand {
   font-size: 1.5rem !important;

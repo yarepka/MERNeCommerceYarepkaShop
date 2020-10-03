@@ -7,7 +7,7 @@ import './ProductItem.css';
 
 const ProductItem = ({
   product: {
-    _id,
+    id,
     name,
     image,
     description,
@@ -21,12 +21,12 @@ const ProductItem = ({
 }) => {
   return (
     <Card className='my-1 rounded product-item'>
-      <Link to={`/product/${_id}`}>
+      <Link to={`/product/${id}`}>
         <img src={image} />
       </Link>
 
       <div className='product-item-title my-1'>
-        <Link to={`/product/${_id}`}>{name}</Link>
+        <Link to={`/product/${id}`}>{name}</Link>
       </div>
 
       <div className='product-item-text'>

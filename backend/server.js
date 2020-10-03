@@ -1,5 +1,14 @@
-const express = require('express');
-const products = require('./data/products');
+import express from 'express';
+import dotenv from 'dotenv';
+import color from 'colors';
+
+import connectDB from './config/db.js';
+import productRoutes from './routes/productRoutes.js';
+import { notFound, errorHandler } from './middleware/errorHandler.js';
+
+dotenv.config();
+
+connectDB();
 
 const app = express();
 
@@ -7,13 +16,18 @@ app.get('/', (req, res) => {
   res.status(200).send('API is running');
 });
 
-app.get('/api/products', (req, res) => {
-  res.status(200).send(products);
-});
+app.use('/api/products', productRoutes);
 
-app.get('/api/products/:id', (req, res) => {
-  const product = products.find((p) => p._id === req.params.id);
-  res.status(200).send(product);
-});
+app.use(notFound);
 
-app.listen(5000, console.log('Server running on port 5000'));
+// overwrite the default error handler
+app.use(errorHandler);
+
+const PORT = process.env.PORT || 5000;
+
+app.listen(
+  PORT,
+  console.log(
+    `Server running in ${process.env.NODE_ENV} mode on port ${PORT}`.yellow.bold
+  )
+);

@@ -1,0 +1,22 @@
+:root {
+  --info-color: #ffc107;
+  --succes-color: #28a745;
+  --danger-color: #dc3545;
+}
+
+.message {
+  font-size: 1.4rem;
+  color: var(--light-color);
+}
+
+.message-danger {
+  background-color: var(--danger-color);
+}
+
+.message-info {
+  background-color: var(--info-color);
+}
+
+.message-success {
+  background-color: var(--succes-color);
+}

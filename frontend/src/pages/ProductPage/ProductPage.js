@@ -1,36 +1,35 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { Fragment, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
 
+import Spinner from '../../components/Spinner/Spinner';
+import Message from '../../components/Message/Message';
 import Product from '../../components/Products/Product/Product';
+import { listProductDetails } from '../../redux/actions/productActions';
 
 const ProductPage = ({ match }) => {
-  const [product, setProduct] = useState({});
-  const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
+  const productDetails = useSelector((state) => state.productDetails);
+  const { loading, error, product } = productDetails;
 
   useEffect(() => {
-    const fetchProduct = async () => {
-      const { data } = await axios.get(`/api/products/${match.params.id}`);
-
-      setProduct(data);
-      setLoading(false);
-    };
-
-    fetchProduct();
-  }, []);
+    dispatch(listProductDetails(match.params.id));
+  }, [match]);
 
   return (
     <Fragment>
       {loading ? (
-        <div>Loading...</div>
+        <Spinner />
+      ) : error ? (
+        <Message type='danger'>{error}</Message>
       ) : (
-        [
+        <Fragment>
           <Link className='btn btn-light p-1 my-1' to='/'>
             Go Back
-          </Link>,
+          </Link>
 
-          <Product product={product} />,
-        ]
+          <Product product={product} />
+        </Fragment>
       )}
     </Fragment>
   );

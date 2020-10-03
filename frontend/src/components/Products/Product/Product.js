@@ -35,9 +35,9 @@ const Product = ({ product }) => {
           </li>
           <li>
             <button
-              className='btn btn-dark btn-block text-uppercase'
               type='button'
-              disabled='disabled'
+              className='btn btn-dark btn-block text-uppercase'
+              disabled={!product.countInStock > 0}
             >
               Add to cart
             </button>

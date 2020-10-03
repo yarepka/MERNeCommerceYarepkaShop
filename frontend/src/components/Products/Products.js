@@ -1,32 +1,40 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
+import { listProducts, clearProduct } from '../../redux/actions/productActions';
+import Spinner from '../Spinner/Spinner';
+import Message from '../Message/Message';
 import ProductItem from './ProductItem/ProductItem';
 import './Products.css';
 
 const Products = () => {
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
+  // dispatch(action()) instead passing functions object to
+  // second argument of connect function from react-redux
+  const dispatch = useDispatch();
+  // useSelector instead of mapStateToProps
+  const productList = useSelector((state) => state.productList);
+  const { loading, error, products } = productList;
 
   useEffect(() => {
-    const fetchProducts = async () => {
-      const { data } = await axios.get('/api/products');
-      setProducts(data);
-      setLoading(false);
-    };
-
-    fetchProducts();
-  }, []);
+    dispatch(listProducts());
+    dispatch(clearProduct());
+  }, [dispatch]);
 
   return loading ? (
-    <div>Loading...</div>
+    <Spinner />
+  ) : error ? (
+    <Message type='danger'>{error}</Message>
   ) : (
     <div className='products'>
       {products.map((product) => (
-        <ProductItem key={product._id} product={product} />
+        <ProductItem key={product.id} product={product} />
       ))}
     </div>
   );
 };
+
+const mapStateToProps = (state) => ({
+  productList: state.productList,
+});
 
 export default Products;
