@@ -1,22 +1,37 @@
 :root {
-  --info-color: #ffc107;
-  --succes-color: #28a745;
-  --danger-color: #dc3545;
+  --info-color-contrast: #ffc107;
+  --success-color-contrast: #28a745;
+  --danger-color-contrast: #dc3545;
+  --info-color-light: #ffeebb;
+  --success-color-light: #94f5ab;
+  --danger-color-light: #ffdfe2;
 }
 
 .message {
   font-size: 1.4rem;
   color: var(--light-color);
+  border-radius: 2px;
+}
+
+.message-small {
+  font-size: 1rem;
+}
+
+.message-large {
+  font-size: 2rem;
 }
 
 .message-danger {
-  background-color: var(--danger-color);
+  background-color: var(--danger-color-light);
+  color: var(--danger-color-contrast);
 }
 
 .message-info {
-  background-color: var(--info-color);
+  background-color: var(--info-color-light);
+  color: var(--info-color-contrast);
 }
 
 .message-success {
-  background-color: var(--succes-color);
+  background-color: var(--success-color-light);
+  color: var(--success-color-contrast);
 }

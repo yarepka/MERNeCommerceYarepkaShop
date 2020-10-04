@@ -36,7 +36,11 @@ const Cart = ({ match, location, history }) => {
         {cartItems.length === 0 ? (
           <Message>
             Your cart is empty{' '}
-            <Link className='btn btn-underlined text-medium' to='/'>
+            <Link
+              style={{ color: '#333' }}
+              className='btn btn-underlined text-medium'
+              to='/'
+            >
               Go Back
             </Link>
           </Message>

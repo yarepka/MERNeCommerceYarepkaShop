@@ -1,13 +1,14 @@
 import React, { Fragment } from 'react';
 import spinner from './spinner.gif';
 
-const Spinner = () => {
+const Spinner = ({ width }) => {
   return (
     <Fragment>
       <img
         src={spinner}
         style={{
-          width: '600px',
+          width: width ? width + 'px' : '600px',
+          maxWidth: '100%',
           margin: 'auto',
           display: 'block',
         }}

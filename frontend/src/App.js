@@ -7,6 +7,9 @@ import Container from './components/Container/Container';
 import HomePage from './pages/HomePage/HomePage';
 import ProductPage from './pages/ProductPage/ProductPage';
 import CartPage from './pages/CartPage/CartPage';
+import LoginPage from './pages/LoginPage/LoginPage';
+import RegisterPage from './pages/RegisterPage/RegisterPage';
+import ProfilePage from './pages/ProfilePage/ProfilePage';
 
 const App = () => {
   return (
@@ -14,9 +17,12 @@ const App = () => {
       <Header />
       <main className='py-1'>
         <Container>
-          <Route path='/' component={HomePage} exact />
+          <Route path='/login' component={LoginPage} exact />
+          <Route path='/register' component={RegisterPage} exact />
+          <Route path='/profile' component={ProfilePage} exact />
           <Route path='/product/:id' component={ProductPage} exact />
           <Route path='/cart/:id?' component={CartPage} exact />
+          <Route path='/' component={HomePage} exact />
         </Container>
       </main>
       <Footer />

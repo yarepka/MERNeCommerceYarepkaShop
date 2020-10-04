@@ -29,24 +29,6 @@ const authUser = asyncHandler(async (req, res) => {
   }
 });
 
-// @desc    Get user profile by token
-// @route   GET /api/users/profile
-// @access  Private
-const getUserProfile = asyncHandler(async (req, res) => {
-  if (req.user) {
-    res.status(200).send({
-      id: req.user._id,
-      name: req.user.name,
-      email: req.user.email,
-      isAdmin: req.user.isAdmin,
-      token: generateToken(req.user._id),
-    });
-  } else {
-    res.status(404);
-    throw new Error('User not found');
-  }
-});
-
 // @desc    Register a new user
 // @route   POST /api/users/login
 // @access  Public
@@ -82,4 +64,48 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 });
 
-export { authUser, getUserProfile, registerUser };
+// @desc    Get user profile by token
+// @route   GET /api/users/profile
+// @access  Private
+const getUserProfile = asyncHandler(async (req, res) => {
+  if (req.user) {
+    res.status(200).send({
+      id: req.user._id,
+      name: req.user.name,
+      email: req.user.email,
+      isAdmin: req.user.isAdmin,
+      token: generateToken(req.user._id),
+    });
+  } else {
+    res.status(404);
+    throw new Error('User not found');
+  }
+});
+
+// @desc    Update user profile
+// @route   PUT /api/users/profile
+// @access  Private
+const updateUserProfile = asyncHandler(async (req, res) => {
+  if (req.user) {
+    req.user.name = req.body.name || req.user.name;
+    req.user.email = req.body.email || req.user.email;
+    if (req.body.password) {
+      req.user.password = req.body.password;
+    }
+
+    const updatedUser = await req.user.save();
+    console.log('updatedUser: ', updatedUser);
+    res.send({
+      id: updatedUser._id,
+      name: updatedUser.name,
+      email: updatedUser.email,
+      isAdmin: updatedUser.isAdmin,
+      token: generateToken(updatedUser._id),
+    });
+  } else {
+    res.status(404);
+    throw new Error('User not found');
+  }
+});
+
+export { authUser, getUserProfile, registerUser, updateUserProfile };

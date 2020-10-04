@@ -1,0 +1,28 @@
+.form-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.form-container .form-wrapper {
+  width: 100%;
+}
+
+.form-container .form-wrapper-centered {
+  width: 70%;
+  padding: 2rem;
+}
+
+@media (max-width: 800px) {
+  .form-container .form-wrapper-centered {
+    width: 90%;
+    padding: 0;
+  }
+}
+
+@media (max-width: 500px) {
+  .form-container .form-wrapper-centered {
+    width: 100%;
+    padding: 0;
+  }
+}

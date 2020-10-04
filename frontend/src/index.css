@@ -77,6 +77,17 @@ select:focus {
   outline: none;
 }
 
+input {
+  background-color: #f4f4f4;
+  border: none;
+  padding: 0.7rem 1rem;
+  border-radius: 2px;
+}
+
+input:focus {
+  outline: 2px solid var(--dark-color);
+}
+
 /* *Utility Classes* */
 .brand {
   font-size: 1.5rem !important;
