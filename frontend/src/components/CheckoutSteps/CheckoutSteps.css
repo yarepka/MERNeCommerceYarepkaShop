@@ -1,0 +1,8 @@
+.checkout-steps {
+  margin-bottom: 2rem;
+}
+
+.checkout-steps ul {
+  display: flex;
+  justify-content: space-between;
+}

@@ -185,6 +185,11 @@ input:focus {
   color: var(--text-color);
 }
 
+.bg-white {
+  background: #fff;
+  color: #333;
+}
+
 /* -- Text -- */
 .text-uppercase {
   text-transform: uppercase;
@@ -200,6 +205,18 @@ input:focus {
 
 .text-large {
   font-size: 2rem;
+}
+
+.text-dark {
+  color: var(--text-color);
+}
+
+.text-light {
+  color: var(--light-color);
+}
+
+.text-bold {
+  font-weight: bold;
 }
 
 /* -- Paddings -- */

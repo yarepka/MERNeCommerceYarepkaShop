@@ -70,7 +70,7 @@ const orderSchema = mongoose.Schema(
     },
   },
   {
-    // adds 'created at' and 'updated at' fields
+    // adds 'createdAt' and 'updatedAt' fields
     timestamps: true,
     toJSON: {
       transform(doc, ret) {
