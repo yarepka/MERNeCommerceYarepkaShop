@@ -1,12 +1,3 @@
-:root {
-  --info-color-contrast: #ffc107;
-  --success-color-contrast: #28a745;
-  --danger-color-contrast: #dc3545;
-  --info-color-light: #ffeebb;
-  --success-color-light: #94f5ab;
-  --danger-color-light: #ffdfe2;
-}
-
 .message {
   font-size: 1.4rem;
   color: var(--light-color);

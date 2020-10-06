@@ -5,6 +5,12 @@
   --primary-color: #3f72af;
   --dark-color: #112d4e;
   --text-color: #333;
+  --info-color-contrast: #ffc107;
+  --success-color-contrast: #28a745;
+  --danger-color-contrast: #dc3545;
+  --info-color-light: #ffeebb;
+  --success-color-light: #94f5ab;
+  --danger-color-light: #ffdfe2;
 }
 
 /* *Global* */
@@ -88,6 +94,10 @@ input:focus {
   outline: 2px solid var(--dark-color);
 }
 
+input:focus[type='checkbox'] {
+  outline: none;
+}
+
 /* *Utility Classes* */
 .brand {
   font-size: 1.5rem !important;
@@ -108,6 +118,14 @@ input:focus {
 
 .flex-align-center {
   align-items: center;
+}
+
+.flex-row {
+  flex-direction: row !important;
+}
+
+.flex-column {
+  flex-direction: column !important;
 }
 
 .grid-not-stretch {
@@ -194,6 +212,11 @@ input:focus {
   color: #333;
 }
 
+.bg-danger {
+  background: var(--danger-color-contrast);
+  color: #fff;
+}
+
 /* -- Text -- */
 .text-uppercase {
   text-transform: uppercase;
@@ -269,6 +292,10 @@ input:focus {
 }
 .m-3 {
   margin: 3rem;
+}
+
+.m-0 {
+  margin: 0 !important;
 }
 /* - x - */
 .mx-1 {

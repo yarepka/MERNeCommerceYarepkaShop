@@ -1,0 +1,15 @@
+.admin-panel {
+  border: 2px solid #f4f4f4;
+  border-radius: 3px;
+}
+.admin-panel li {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  align-items: center;
+}
+
+.admin-panel li:not(:last-of-type) {
+  border-bottom: 2px solid #f4f4f4;
+}

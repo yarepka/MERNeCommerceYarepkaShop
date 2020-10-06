@@ -36,7 +36,14 @@ const Navbar = () => {
                   <i className='fas fa-user'></i> {userInfo.name.split(' ')[0]}
                 </Link>
               </li>,
-              <li key={2}>
+              userInfo.isAdmin && (
+                <li key={2}>
+                  <Link className='btn text-uppercase' to='/admin/panel'>
+                    <i className='far fa-clipboard'></i> Admin Panel
+                  </Link>
+                </li>
+              ),
+              <li key={3}>
                 <button
                   className='btn text-uppercase bg-dark'
                   onClick={logoutHandler}

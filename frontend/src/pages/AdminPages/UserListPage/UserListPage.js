@@ -1,7 +1,9 @@
 import React from 'react';
 
+import UserList from '../../../components/UserList/UserList';
+
 const UserListPage = () => {
-  return <div></div>;
+  return <UserList />;
 };
 
 export default UserListPage;
