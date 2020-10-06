@@ -29,16 +29,16 @@ const ProfileForm = ({ history, setMessage }) => {
   const userUpdateProfile = useSelector((state) => state.userUpdateProfile);
   const { success } = userUpdateProfile;
 
-  if (!userInfo) {
-    history.push('/login');
-  }
-
   useEffect(() => {
-    if (!user.name) {
-      dispatch(getUserDetails('profile'));
+    if (!userInfo) {
+      history.push('/login');
     } else {
-      setName(user.name);
-      setEmail(user.email);
+      if (!user.name) {
+        dispatch(getUserDetails('profile'));
+      } else {
+        setName(user.name);
+        setEmail(user.email);
+      }
     }
   }, [dispatch, history, user]);
 

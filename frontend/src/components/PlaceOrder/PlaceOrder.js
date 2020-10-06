@@ -6,7 +6,7 @@ import Message from '../Message/Message';
 import Card from '../Card/Card';
 import CheckoutSteps from '../CheckoutSteps/CheckoutSteps';
 import FormContainer from '../Form/FormContainer/FormContainer';
-import Orders from './Orders/Orders';
+import Orders from '../Order/Orders/Orders';
 import { createOrder } from '../../redux/actions/orderActions';
 
 import './PlaceOrder.css';

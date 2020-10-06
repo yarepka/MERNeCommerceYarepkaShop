@@ -39,4 +39,58 @@ const addOrderItems = asyncHandler(async (req, res) => {
   }
 });
 
-export { addOrderItems };
+// @desc    Get order by ID
+// @route   GET /api/orders/:id
+// @access  Private
+const getOrderById = asyncHandler(async (req, res) => {
+  const orderId = req.params.id;
+
+  // get order, populate user field from the users collection
+  // user shold have 'name' and 'email' fields
+  const order = await Order.findById(orderId).populate('user', 'name email');
+
+  if (!order) {
+    res.status(404);
+    throw new Error('Order was not found');
+    return;
+  }
+
+  res.status(200).send(order);
+});
+
+// @desc    Update order to paid
+// @route   GET /api/orders/:id/pay
+// @access  Private
+const updateOrderToPaid = asyncHandler(async (req, res) => {
+  const orderId = req.params.id;
+  const order = await Order.findById(orderId);
+
+  if (!order) {
+    res.status(404);
+    throw new Error('Order was not found');
+    return;
+  }
+
+  order.isPaid = true;
+  order.paidAt = Date.now();
+  order.paymentResult = {
+    id: req.body.id,
+    status: req.body.status,
+    update_time: req.body.update_time,
+    email_address: req.body.payer.email_address,
+  };
+
+  const updatedOrder = await order.save();
+
+  res.send(updatedOrder);
+});
+
+// @desc    Get logged in user orders
+// @route   GET /api/orders/myorders
+// @access  Private
+const getMyOrders = asyncHandler(async (req, res) => {
+  const orders = await Order.find({ user: req.user._id });
+  res.send(orders);
+});
+
+export { addOrderItems, getOrderById, updateOrderToPaid, getMyOrders };

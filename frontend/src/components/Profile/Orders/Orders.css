@@ -1,0 +1,26 @@
+.orders h2 {
+  margin-bottom: 1rem;
+}
+
+.orders .profile-orders-list > li {
+  border: 2px solid #f4f4f4;
+  border-radius: 3px;
+}
+
+.orders .profile-orders-list .profile-orders-list-item {
+  margin-bottom: 2rem;
+}
+
+.orders .profile-orders-list .profile-orders-list-item-data-list li {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 0.75rem 1.25rem;
+  align-items: center;
+}
+
+.orders
+  .profile-orders-list
+  .profile-orders-list-item-data-list
+  li:not(:last-of-type) {
+  border-bottom: 2px solid #f4f4f4;
+}

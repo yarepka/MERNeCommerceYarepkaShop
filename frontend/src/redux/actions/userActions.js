@@ -9,10 +9,14 @@ import {
   USER_DETAILS_REQUEST,
   USER_DETAILS_SUCCESS,
   USER_DETAILS_FAIL,
+  USER_DETAILS_RESET,
   USER_UPDATE_PROFILE_REQUEST,
   USER_UPDATE_PROFILE_SUCCESS,
   USER_UPDATE_PROFILE_FAIL,
-  USER_UPDATE_PROFILE_RESET,
+  ORDER_LIST_MYORDERS_RESET,
+  USER_LIST_REQUEST,
+  USER_LIST_SUCCESS,
+  USER_LIST_FAIL,
 } from './types';
 import axios from 'axios';
 
@@ -59,6 +63,14 @@ export const logout = () => {
     localStorage.removeItem('userInfo');
     dispatch({
       type: USER_LOGOUT,
+    });
+
+    dispatch({
+      type: USER_DETAILS_RESET,
+    });
+
+    dispatch({
+      type: ORDER_LIST_MYORDERS_RESET,
     });
   };
 };
@@ -170,6 +182,40 @@ export const updateUserProfile = (user) => {
     } catch (err) {
       dispatch({
         type: USER_UPDATE_PROFILE_FAIL,
+        // remember we putted custom error handler
+        payload:
+          err.response && err.response.data.message
+            ? err.response.data.message
+            : err.message,
+      });
+    }
+  };
+};
+
+export const listUsers = () => {
+  return async (dispatch, getState) => {
+    try {
+      dispatch({
+        type: USER_LIST_REQUEST,
+      });
+
+      const {
+        userLogin: { userInfo },
+      } = getState();
+
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
+
+      const { data } = await axios.get(`/api/users`, config);
+
+      dispatch({ type: USER_LIST_SUCCESS, payload: data });
+    } catch (err) {
+      dispatch({
+        type: USER_LIST_FAIL,
         // remember we putted custom error handler
         payload:
           err.response && err.response.data.message
