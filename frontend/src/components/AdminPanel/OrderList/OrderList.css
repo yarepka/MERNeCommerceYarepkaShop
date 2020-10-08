@@ -1,0 +1,24 @@
+.ordersAdmin-list > li {
+  border-radius: 3px;
+  border: 2px solid #f4f4f4;
+}
+
+.ordersAdmin-list .ordersAdmin-list-item {
+  margin-bottom: 2rem;
+}
+
+.ordersAdmin-list .orderAdmin-data-list li {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 0.75rem 1.25rem;
+  grid-gap: 0.5rem;
+  align-items: center;
+}
+
+.ordersAdmin-list .orderAdmin-data-list li.grid-off {
+  display: block;
+}
+
+.ordersAdmin-list .orderAdmin-data-list li:not(:last-of-type) {
+  border-bottom: 2px solid #f4f4f4;
+}

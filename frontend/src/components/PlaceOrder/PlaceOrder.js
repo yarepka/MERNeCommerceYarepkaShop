@@ -32,11 +32,10 @@ const PlaceOrder = ({ history }) => {
   );
 
   cart.shippingPrice = addDecimals(cart.itemsPrice > 100 ? 0 : 100);
-  cart.taxPrice = addDecimals(Number((cart.itemsPrice * 0.15).toFixed(2)));
-  cart.totalPrice =
-    Number(cart.itemsPrice) +
-    Number(cart.shippingPrice) +
-    Number(cart.taxPrice);
+  cart.taxPrice = addDecimals(Number(cart.itemsPrice * 0.15));
+  cart.totalPrice = addDecimals(
+    Number(cart.itemsPrice) + Number(cart.shippingPrice) + Number(cart.taxPrice)
+  );
 
   const {
     paymentMethod,

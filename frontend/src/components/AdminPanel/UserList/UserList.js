@@ -1,9 +1,10 @@
 import React, { useEffect, Fragment } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import Message from '../Message/Message';
-import Spinner from '../Spinner/Spinner';
-import { listUsers, deleteUser } from '../../redux/actions/userActions';
+import Message from '../../Message/Message';
+import Spinner from '../../Spinner/Spinner';
+import { listUsers, deleteUser } from '../../../redux/actions/userActions';
+import { USER_LIST_RESET } from '../../../redux/actions/types';
 
 import './UserList.css';
 
@@ -23,6 +24,9 @@ const UserList = ({ history }) => {
 
   useEffect(() => {
     dispatch(listUsers());
+    return () => {
+      dispatch({ type: USER_LIST_RESET });
+    };
   }, [dispatch, successDelete, userInfo]);
 
   const deleteHandler = (userId) => {

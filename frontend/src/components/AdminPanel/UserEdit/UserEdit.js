@@ -2,15 +2,15 @@ import React, { useState, useEffect, Fragment } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
-import Message from '../Message/Message';
-import Spinner from '../Spinner/Spinner';
-import FormContainer from '../Form/FormContainer/FormContainer';
-import FormGroup from '../Form/FormGroup/FormGroup';
-import { getUserDetails, updateUser } from '../../redux/actions/userActions';
+import Message from '../../Message/Message';
+import Spinner from '../../Spinner/Spinner';
+import FormContainer from '../../Form/FormContainer/FormContainer';
+import FormGroup from '../../Form/FormGroup/FormGroup';
+import { getUserDetails, updateUser } from '../../../redux/actions/userActions';
 import {
   USER_DETAILS_RESET,
   USER_UPDATE_RESET,
-} from '../../redux/actions/types';
+} from '../../../redux/actions/types';
 
 import './UserEdit.css';
 

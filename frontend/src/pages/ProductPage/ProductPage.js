@@ -6,6 +6,7 @@ import Spinner from '../../components/Spinner/Spinner';
 import Message from '../../components/Message/Message';
 import Product from '../../components/Products/Product/Product';
 import { listProductDetails } from '../../redux/actions/productActions';
+import { CLEAR_PRODUCT } from '../../redux/actions/types';
 
 const ProductPage = ({ match }) => {
   const dispatch = useDispatch();
@@ -14,6 +15,9 @@ const ProductPage = ({ match }) => {
 
   useEffect(() => {
     dispatch(listProductDetails(match.params.id));
+    return () => {
+      dispatch({ type: CLEAR_PRODUCT });
+    };
   }, [match]);
 
   return (

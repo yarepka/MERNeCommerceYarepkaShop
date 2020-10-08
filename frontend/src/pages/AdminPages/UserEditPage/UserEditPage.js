@@ -1,9 +1,9 @@
-import React from 'react'
+import React from 'react';
 
-import UserEdit from '../../../components/UserEdit/UserEdit.js';
+import UserEdit from '../../../components/AdminPanel/UserEdit/UserEdit';
 
 const UserEditPage = () => {
-  return <UserEdit />
-}
+  return <UserEdit />;
+};
 
-export default UserEditPage
+export default UserEditPage;

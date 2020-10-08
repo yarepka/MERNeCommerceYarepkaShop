@@ -83,15 +83,21 @@ select:focus {
   outline: none;
 }
 
-input {
+input,
+textarea {
   background-color: #f4f4f4;
   border: none;
   padding: 0.7rem 1rem;
   border-radius: 2px;
 }
 
-input:focus {
+input:focus,
+textarea:focus {
   outline: 2px solid var(--dark-color);
+}
+
+textarea {
+  resize: vertical;
 }
 
 input:focus[type='checkbox'] {
@@ -109,7 +115,7 @@ input:focus[type='checkbox'] {
 }
 
 .flex {
-  display: flex;
+  display: flex !important;
 }
 
 .flex-justify-content-space-between {
@@ -118,6 +124,10 @@ input:focus[type='checkbox'] {
 
 .flex-align-center {
   align-items: center;
+}
+
+.flex-justify-content-center {
+  justify-content: center;
 }
 
 .flex-row {

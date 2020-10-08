@@ -7,6 +7,7 @@ import Message from '../../Message/Message';
 import Spinner from '../../Spinner/Spinner';
 import './Profile.css';
 import { listMyOrders } from '../../../redux/actions/orderActions';
+import { ORDER_LIST_MYORDERS_RESET } from '../../../redux/actions/types';
 
 const Profile = () => {
   const [message, setMessage] = useState(null);
@@ -14,7 +15,7 @@ const Profile = () => {
   const dispatch = useDispatch();
 
   const userDetails = useSelector((state) => state.userDetails);
-  const { loading, error } = userDetails;
+  const { error } = userDetails;
 
   const orderListMyOrders = useSelector((state) => state.orderListMyOrders);
   const {
@@ -24,14 +25,18 @@ const Profile = () => {
   } = orderListMyOrders;
 
   useEffect(() => {
+    console.log('list');
     dispatch(listMyOrders());
+    return () => {
+      dispatch({ type: ORDER_LIST_MYORDERS_RESET });
+    };
   }, []);
 
   return (
     <Fragment>
       {error && <Message type='danger'>{error}</Message>}
       {message && <Message type='danger'>{message}</Message>}
-      {loading || loadingMyOrders ? (
+      {loadingMyOrders ? (
         <Spinner />
       ) : (
         <div className='profile'>

@@ -11,22 +11,42 @@ import Orders from '../../Orders/Orders';
 import {
   getOrderDetails,
   payOrder,
+  deliverOrder,
 } from '../../../../redux/actions/orderActions';
-import { ORDER_PAY_RESET } from '../../../../redux/actions/types';
+import {
+  ORDER_PAY_RESET,
+  ORDER_DELIVER_RESET,
+} from '../../../../redux/actions/types';
 
 import './Order.css';
 
-const Order = ({ match }) => {
+const Order = ({ match, history }) => {
   const orderId = match.params.id;
   const dispatch = useDispatch();
 
   const [sdkReady, setSdkReady] = useState(false);
 
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
   const orderDetails = useSelector((state) => state.orderDetails);
   const { loading, error, order } = orderDetails;
 
+  if (!userInfo) history.push('/login');
+  if (userInfo && !userInfo.isAdmin) {
+    if (order && order.user.id !== userInfo.id) {
+      console.log('order: ', order);
+      console.log('order.user: ', order.user);
+      console.log('userInfo.id: ', userInfo.id);
+      history.push('/');
+    }
+  }
+
   const orderPay = useSelector((state) => state.orderPay);
   const { loading: loadingPay, success: successPay } = orderPay;
+
+  const orderDeliver = useSelector((state) => state.orderDeliver);
+  const { success: successDeliver } = orderDeliver;
 
   const successPaymentHandler = (paymentResult) => {
     console.log(paymentResult);
@@ -46,8 +66,9 @@ const Order = ({ match }) => {
       document.body.appendChild(script);
     };
 
-    if (!order || order.id !== orderId || successPay) {
+    if (!order || order.id !== orderId || successPay || successDeliver) {
       dispatch({ type: ORDER_PAY_RESET });
+      dispatch({ type: ORDER_DELIVER_RESET });
       dispatch(getOrderDetails(orderId));
     } else if (!order.isPaid) {
       if (!window.paypal) {
@@ -56,7 +77,11 @@ const Order = ({ match }) => {
         setSdkReady(true);
       }
     }
-  }, [order, orderId, successPay]);
+  }, [order, orderId, successPay, successDeliver]);
+
+  const deliverHandler = () => {
+    dispatch(deliverOrder(order.id));
+  };
 
   return loading ? (
     <Spinner />
@@ -156,6 +181,18 @@ const Order = ({ match }) => {
                         onSuccess={successPaymentHandler}
                       />
                     )}
+                  </li>
+                )}
+
+                {userInfo && order.isPaid && !order.isDelivered && userInfo.isAdmin && (
+                  <li>
+                    <button
+                      type='button'
+                      className='btn btn-padding btn-block text-uppercase bg-dark text-light'
+                      onClick={deliverHandler}
+                    >
+                      Mark As Delivered
+                    </button>
                   </li>
                 )}
               </ul>

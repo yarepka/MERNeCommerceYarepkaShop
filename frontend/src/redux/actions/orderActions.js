@@ -12,6 +12,12 @@ import {
   ORDER_LIST_MYORDERS_REQUEST,
   ORDER_LIST_MYORDERS_SUCCESS,
   ORDER_LIST_MYORDERS_FAIL,
+  ORDER_LIST_REQUEST,
+  ORDER_LIST_SUCCESS,
+  ORDER_LIST_FAIL,
+  ORDER_DELIVER_REQUEST,
+  ORDER_DELIVER_SUCCESS,
+  ORDER_DELIVER_FAIL,
 } from './types';
 
 export const createOrder = (order) => {
@@ -123,6 +129,44 @@ export const payOrder = (orderId, paymentResult) => {
   };
 };
 
+export const deliverOrder = (orderId) => {
+  return async (dispatch, getState) => {
+    try {
+      dispatch({
+        type: ORDER_DELIVER_REQUEST,
+      });
+
+      const {
+        userLogin: { userInfo },
+      } = getState();
+
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
+
+      const { data } = await axios.put(
+        `/api/orders/${orderId}/deliver`,
+        {},
+        config
+      );
+
+      dispatch({ type: ORDER_DELIVER_SUCCESS, payload: data });
+    } catch (err) {
+      dispatch({
+        type: ORDER_DELIVER_FAIL,
+        // remember we putted custom error handler
+        payload:
+          err.response && err.response.data.message
+            ? err.response.data.message
+            : err.message,
+      });
+    }
+  };
+};
+
 export const listMyOrders = () => {
   return async (dispatch, getState) => {
     try {
@@ -147,6 +191,40 @@ export const listMyOrders = () => {
     } catch (err) {
       dispatch({
         type: ORDER_LIST_MYORDERS_FAIL,
+        // remember we putted custom error handler
+        payload:
+          err.response && err.response.data.message
+            ? err.response.data.message
+            : err.message,
+      });
+    }
+  };
+};
+
+export const listOrders = () => {
+  return async (dispatch, getState) => {
+    try {
+      dispatch({
+        type: ORDER_LIST_REQUEST,
+      });
+
+      const {
+        userLogin: { userInfo },
+      } = getState();
+
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
+
+      const { data } = await axios.get(`/api/orders`, config);
+
+      dispatch({ type: ORDER_LIST_SUCCESS, payload: data });
+    } catch (err) {
+      dispatch({
+        type: ORDER_LIST_FAIL,
         // remember we putted custom error handler
         payload:
           err.response && err.response.data.message

@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { listProducts, clearProduct } from '../../redux/actions/productActions';
+import { PRODUCT_LIST_RESET } from '../../redux/actions/types';
 import Spinner from '../Spinner/Spinner';
 import Message from '../Message/Message';
 import ProductItem from './ProductItem/ProductItem';
@@ -19,6 +20,13 @@ const Products = () => {
     dispatch(listProducts());
     dispatch(clearProduct());
   }, [dispatch]);
+
+  useEffect(() => {
+    return () => {
+      console.log('exit');
+      dispatch({ type: PRODUCT_LIST_RESET });
+    };
+  }, []);
 
   return loading ? (
     <Spinner />

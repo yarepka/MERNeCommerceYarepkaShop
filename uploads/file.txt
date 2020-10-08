@@ -1,0 +1,1 @@
+Add to git repo, even if we do not have any files inside 'uploads' directory

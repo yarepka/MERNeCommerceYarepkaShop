@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import FormContainer from '../../Form/FormContainer/FormContainer';
 import FormGroup from '../../Form/FormGroup/FormGroup';
 import Message from '../../Message/Message';
+import Spinner from '../../Spinner/Spinner';
 import {
   getUserDetails,
   updateUserProfile,
@@ -21,7 +22,7 @@ const ProfileForm = ({ history, setMessage }) => {
   const dispatch = useDispatch();
 
   const userDetails = useSelector((state) => state.userDetails);
-  const { user } = userDetails;
+  const { user, loading } = userDetails;
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -59,51 +60,58 @@ const ProfileForm = ({ history, setMessage }) => {
           Profile updated
         </Message>
       )}
-      <form onSubmit={submitHandler}>
-        <FormGroup>
-          <label>Name</label>
-          <input
-            type='text'
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder='Enter name'
-          />
-        </FormGroup>
+      {loading ? (
+        <Spinner />
+      ) : (
+        <form onSubmit={submitHandler}>
+          <FormGroup>
+            <label>Name</label>
+            <input
+              type='text'
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder='Enter name'
+            />
+          </FormGroup>
 
-        <FormGroup>
-          <label>Email Address</label>
-          <input
-            type='email'
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder='Enter email'
-          />
-        </FormGroup>
+          <FormGroup>
+            <label>Email Address</label>
+            <input
+              type='email'
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder='Enter email'
+            />
+          </FormGroup>
 
-        <FormGroup>
-          <label>Password</label>
-          <input
-            type='password'
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder='Enter password'
-          />
-        </FormGroup>
+          <FormGroup>
+            <label>Password</label>
+            <input
+              type='password'
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder='Enter password'
+            />
+          </FormGroup>
 
-        <FormGroup>
-          <label>Confirm Password</label>
-          <input
-            type='password'
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            placeholder='Confirm password'
-          />
-        </FormGroup>
+          <FormGroup>
+            <label>Confirm Password</label>
+            <input
+              type='password'
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              placeholder='Confirm password'
+            />
+          </FormGroup>
 
-        <button type='submit' className='btn btn-dark btn-block text-uppercase'>
-          Update
-        </button>
-      </form>
+          <button
+            type='submit'
+            className='btn btn-dark btn-block text-uppercase'
+          >
+            Update
+          </button>
+        </form>
+      )}
     </FormContainer>
   );
 };
