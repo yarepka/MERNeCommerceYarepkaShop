@@ -8,6 +8,7 @@ import {
   productUpdateReducer,
   productCreateReviewReducer,
   productLoadPageReducer,
+  productListLoadPageReducer,
 } from './productReducers';
 import { cartReducer } from './cartReducers';
 import {
@@ -30,6 +31,7 @@ import {
 
 export default combineReducers({
   productLoadPage: productLoadPageReducer,
+  productListLoadPage: productListLoadPageReducer,
   productList: productListReducer,
   productDetails: productDetailsReducer,
   productDelete: productDeleteReducer,

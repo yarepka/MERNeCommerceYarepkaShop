@@ -6,13 +6,13 @@ import InfiniteScroll from 'react-infinite-scroller';
 import Message from '../../Message/Message';
 import Spinner from '../../Spinner/Spinner';
 import {
-  loadProductsPage,
+  loadListProductsPage,
   deleteProduct,
   createProduct,
 } from '../../../redux/actions/productActions';
 
 import {
-  PRODUCT_LOAD_PAGE_RESET,
+  PRODUCT_LIST_LOAD_PAGE_RESET,
   PRODUCT_DELETE_RESET,
 } from '../../../redux/actions/types';
 
@@ -21,10 +21,8 @@ import './ProductList.css';
 const ProductList = ({ history }) => {
   const dispatch = useDispatch();
 
-  // const productList = useSelector((state) => state.productList);
-  // const { loading, error, products } = productList;
-  const productLoadPage = useSelector((state) => state.productLoadPage);
-  const { loading, error, products, hasMore } = productLoadPage;
+  const productListLoadPage = useSelector((state) => state.productListLoadPage);
+  const { loading, error, products, hasMore } = productListLoadPage;
 
   const productDelete = useSelector((state) => state.productDelete);
   const { error: errorDelete, success: successDelete } = productDelete;
@@ -44,17 +42,17 @@ const ProductList = ({ history }) => {
 
   useEffect(() => {
     if (successDelete) {
-      dispatch({ type: PRODUCT_LOAD_PAGE_RESET });
+      dispatch({ type: PRODUCT_LIST_LOAD_PAGE_RESET });
     }
   }, [successDelete]);
 
   useEffect(() => {
-    loadProducts();
+    loadListProducts();
   }, [userInfo, successDelete]);
 
   useEffect(() => {
     return () => {
-      dispatch({ type: PRODUCT_LOAD_PAGE_RESET });
+      dispatch({ type: PRODUCT_LIST_LOAD_PAGE_RESET });
       dispatch({ type: PRODUCT_DELETE_RESET });
     };
   }, []);
@@ -69,8 +67,9 @@ const ProductList = ({ history }) => {
     dispatch(createProduct());
   };
 
-  const loadProducts = () => {
-    dispatch(loadProductsPage());
+  const loadListProducts = () => {
+    console.log(':)');
+    dispatch(loadListProductsPage());
   };
 
   return (
@@ -94,7 +93,7 @@ const ProductList = ({ history }) => {
       ) : error ? (
         <Message type='danger'>{error}</Message>
       ) : (
-        <InfiniteScroll hasMore={hasMore} loadMore={loadProducts}>
+        <InfiniteScroll hasMore={hasMore} loadMore={loadListProducts}>
           <ul className='products-list'>
             {products.map((product) => (
               <li className='products-list-item' key={product.id}>

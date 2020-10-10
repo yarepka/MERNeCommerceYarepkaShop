@@ -2,6 +2,9 @@ import {
   PRODUCT_LOAD_PAGE_SUCCESS,
   PRODUCT_LOAD_PAGE_FAIL,
   PRODUCT_LOAD_PAGE_RESET,
+  PRODUCT_LIST_LOAD_PAGE_SUCCESS,
+  PRODUCT_LIST_LOAD_PAGE_FAIL,
+  PRODUCT_LIST_LOAD_PAGE_RESET,
   PRODUCT_LIST_REQUEST,
   PRODUCT_LIST_SUCCESS,
   PRODUCT_LIST_FAIL,
@@ -49,6 +52,39 @@ export const productLoadPageReducer = (
         error: action.payload,
       };
     case PRODUCT_LOAD_PAGE_RESET:
+      return {
+        hasMore: true,
+        loading: true,
+        products: [],
+        page: 0,
+        date: null,
+      };
+    default:
+      return state;
+  }
+};
+
+export const productListLoadPageReducer = (
+  state = { hasMore: true, loading: true, products: [], page: 0, date: null },
+  action
+) => {
+  switch (action.type) {
+    case PRODUCT_LIST_LOAD_PAGE_SUCCESS:
+      return {
+        ...state,
+        products: state.products.concat(action.payload.products),
+        hasMore: action.payload.products.length > 0 ? true : false,
+        loading: false,
+        date: action.payload.date,
+        page: action.payload.page,
+      };
+    case PRODUCT_LIST_LOAD_PAGE_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    case PRODUCT_LIST_LOAD_PAGE_RESET:
       return {
         hasMore: true,
         loading: true,

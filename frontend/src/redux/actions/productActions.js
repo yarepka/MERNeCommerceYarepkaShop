@@ -3,6 +3,8 @@ import axios from 'axios';
 import {
   PRODUCT_LOAD_PAGE_SUCCESS,
   PRODUCT_LOAD_PAGE_FAIL,
+  PRODUCT_LIST_LOAD_PAGE_SUCCESS,
+  PRODUCT_LIST_LOAD_PAGE_FAIL,
   PRODUCT_LIST_REQUEST,
   PRODUCT_LIST_SUCCESS,
   PRODUCT_LIST_FAIL,
@@ -52,6 +54,45 @@ export const loadProductsPage = (keyword = '') => {
     } catch (err) {
       dispatch({
         type: PRODUCT_LOAD_PAGE_FAIL,
+        // remember we putted custom error handler
+        payload:
+          err.response && err.response.data.message
+            ? err.response.data.message
+            : err.message,
+      });
+    }
+  };
+};
+
+export const loadListProductsPage = () => {
+  return async (dispatch, getState) => {
+    try {
+      const {
+        productListLoadPage: { date, page },
+      } = getState();
+
+      const nextPage = page + 1;
+      const currentDate = date !== null ? date : new Date().getTime();
+
+      const { data } = await axios.get(
+        `/api/products/loadPage?page=${nextPage}&date=${currentDate}`
+      );
+
+      console.log(
+        `[loadProductsPage]: in action.\nproducts=${data}\nnextPage=${nextPage}\ncurrentDate=${currentDate}`
+      );
+
+      dispatch({
+        type: PRODUCT_LIST_LOAD_PAGE_SUCCESS,
+        payload: {
+          products: data,
+          page: nextPage,
+          date: currentDate,
+        },
+      });
+    } catch (err) {
+      dispatch({
+        type: PRODUCT_LIST_LOAD_PAGE_FAIL,
         // remember we putted custom error handler
         payload:
           err.response && err.response.data.message
