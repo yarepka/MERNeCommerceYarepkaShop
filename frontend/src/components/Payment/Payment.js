@@ -29,7 +29,7 @@ const Payment = ({ history }) => {
   return (
     <FormContainer type='centered'>
       <CheckoutSteps step1 step2 step3 />
-      <h1 className='text-uppercase'>Payment Method</h1>
+      <h1 className='text-uppercase text-centered-on-mobile'>Payment Method</h1>
       <form className='payment-method-form' onSubmit={submitHandler}>
         <FormGroup>
           <label className='text-medium'>Select Method</label>

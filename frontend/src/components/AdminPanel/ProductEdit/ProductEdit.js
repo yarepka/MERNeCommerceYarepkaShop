@@ -88,13 +88,13 @@ const ProductEdit = ({ match, history }) => {
   return (
     <Fragment>
       <Link
-        className='btn text-dark bg-grey btn-padding'
+        className='btn text-dark bg-grey btn-padding block-on-mobile myb-1'
         to='/admin/productlist'
       >
         GO BACK
       </Link>
-      <FormContainer type='centered'>
-        <h1 className='text-uppercase'>Edit Product</h1>
+      <FormContainer type='centered product-edit-container'>
+        <h1 className='text-uppercase text-centered-on-mobile'>Edit Product</h1>
         {errorUpdate && <Message type='danger'>{errorUpdate}</Message>}
         {loading ? (
           <Spinner />
@@ -167,7 +167,10 @@ const ProductEdit = ({ match, history }) => {
               ></textarea>
             </FormGroup>
 
-            <button type='submit' className='btn btn-dark text-uppercase'>
+            <button
+              type='submit'
+              className='btn btn-dark text-uppercase block-on-mobile'
+            >
               Update
             </button>
           </form>

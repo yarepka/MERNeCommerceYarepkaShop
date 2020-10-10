@@ -1,6 +1,29 @@
 .cart-item {
-  padding: 1rem;
+  padding: 0;
   display: grid;
   grid-template-columns: 2fr 3fr repeat(3, 2fr);
   grid-gap: 1rem;
+}
+
+@media (max-width: 600px) {
+  .cart-item {
+    display: block;
+    padding: 2rem 0.75rem !important;
+    border: 2px solid #f4f4f4;
+    border-radius: 3px;
+  }
+
+  .cart-item .cart-item-image {
+    width: 75%;
+    display: block;
+    margin: auto;
+    margin-bottom: 1rem;
+  }
+
+  .cart-item .item-cart-delete {
+    display: block;
+    width: 100%;
+    background-color: var(--dark-color);
+    color: #fff;
+  }
 }

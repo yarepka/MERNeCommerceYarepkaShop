@@ -51,11 +51,14 @@ const UserEdit = ({ match, history }) => {
 
   return (
     <Fragment>
-      <Link className='btn text-dark bg-grey btn-padding' to='/admin/userlist'>
+      <Link
+        className='btn text-dark bg-grey btn-padding block-on-mobile myb-1'
+        to='/admin/userlist'
+      >
         GO BACK
       </Link>
       <FormContainer type='centered'>
-        <h1 className='text-uppercase'>Edit User</h1>
+        <h1 className='text-uppercase text-centered-on-mobile'>Edit User</h1>
         {loadingUpdate && <Spinner />}
         {errorUpdate && <Message type='danger'>{errorUpdate}</Message>}
         {loading ? (
@@ -94,7 +97,10 @@ const UserEdit = ({ match, history }) => {
               />
             </FormGroup>
 
-            <button type='submit' className='btn btn-dark text-uppercase'>
+            <button
+              type='submit'
+              className='btn btn-dark text-uppercase block-on-mobile'
+            >
               Update
             </button>
           </form>

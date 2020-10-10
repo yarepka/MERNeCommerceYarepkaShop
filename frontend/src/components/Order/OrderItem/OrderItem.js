@@ -6,14 +6,18 @@ import './OrderItem.css';
 const OrderItem = ({ order }) => {
   return (
     <li className='order-list-item'>
-      <img className='rounded' src={order.image} alt={order.name} />
+      <img
+        className='rounded order-list-item-image'
+        src={order.image}
+        alt={order.name}
+      />
       <Link
-        className='btn text-dark text-bold'
+        className='btn text-dark text-bold text-centered-on-mobile'
         to={`/product/${order.product}`}
       >
         {order.name}
       </Link>
-      <div>
+      <div className='text-centered-on-mobile'>
         {order.qty} x ${order.price} = ${(order.qty * order.price).toFixed(2)}
       </div>
     </li>

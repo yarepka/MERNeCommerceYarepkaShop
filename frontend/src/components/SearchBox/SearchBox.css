@@ -1,0 +1,21 @@
+.search-box-form input {
+  border-top-right-radius: 0;
+  border-top-left-radius: 0;
+  margin-left: 10px;
+}
+
+.search-box-form button {
+  font-size: 0.9rem;
+  margin-left: 2px;
+}
+
+@media (max-width: 900px) {
+  .search-box-form input {
+    margin-left: 0;
+  }
+
+  .search-box-form button,
+  .search-box-form input {
+    padding: 0.3rem;
+  }
+}

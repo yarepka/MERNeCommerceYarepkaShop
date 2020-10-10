@@ -72,7 +72,9 @@ const PlaceOrder = ({ history }) => {
           <div>
             <ul className='steps-result'>
               <li>
-                <h2 className='text-uppercase'>Shipping</h2>
+                <h2 className='text-uppercase text-centered-on-mobile'>
+                  Shipping
+                </h2>
                 <p>
                   <strong>Address: </strong>
                   {shippingAddress.address}, {shippingAddress.city},{' '}
@@ -81,13 +83,17 @@ const PlaceOrder = ({ history }) => {
               </li>
 
               <li>
-                <h2 className='text-uppercase'>Payment Method</h2>
+                <h2 className='text-uppercase text-centered-on-mobile'>
+                  Payment Method
+                </h2>
                 <strong>Method: </strong>
                 {paymentMethod}
               </li>
 
               <li>
-                <h2 className='text-uppercase'>Order Items</h2>
+                <h2 className='text-uppercase text-centered-on-mobile'>
+                  Order Items
+                </h2>
                 {cartItems.length === 0 ? (
                   <Message>Your cart is empty</Message>
                 ) : (

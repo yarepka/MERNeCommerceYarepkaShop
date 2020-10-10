@@ -32,7 +32,9 @@ const Cart = ({ match, location, history }) => {
   return (
     <div className='cart'>
       <div>
-        <h1 className='text-uppercase my-1'>Shopping Cart</h1>
+        <h1 className='text-uppercase myb-1 text-centered-on-mobile'>
+          Shopping Cart
+        </h1>
         {cartItems.length === 0 ? (
           <Message>
             Your cart is empty{' '}

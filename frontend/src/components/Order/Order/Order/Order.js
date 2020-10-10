@@ -89,13 +89,17 @@ const Order = ({ match, history }) => {
     <Message type='danger'>{error}</Message>
   ) : (
     <Fragment>
-      <h1 className='text-uppercase my-2'>Order {order.id}</h1>
+      <h1 className='text-uppercase my-2 text-centered-on-mobile'>
+        Order <span className='orderId'>{order.id}</span>
+      </h1>
       <div className='order'>
         <div className='order-content'>
           <div>
             <ul className='steps-result'>
               <li>
-                <h2 className='text-uppercase'>Shipping</h2>
+                <h2 className='text-uppercase text-centered-on-mobile myb-1-on-mobile'>
+                  Shipping
+                </h2>
                 <p>
                   <strong>Name: </strong> {order.user.name}{' '}
                 </p>
@@ -124,7 +128,9 @@ const Order = ({ match, history }) => {
               </li>
 
               <li>
-                <h2 className='text-uppercase'>Payment Method</h2>
+                <h2 className='text-uppercase text-centered-on-mobile myb-1-on-mobile'>
+                  Payment Method
+                </h2>
                 <p className='myb-1'>
                   <strong>Method: </strong>
                   {order.paymentMethod}
@@ -137,7 +143,9 @@ const Order = ({ match, history }) => {
               </li>
 
               <li>
-                <h2 className='text-uppercase'>Order Items</h2>
+                <h2 className='text-uppercase text-centered-on-mobile'>
+                  Order Items
+                </h2>
                 {order.orderItems.length === 0 ? (
                   <Message>Order is empty</Message>
                 ) : (
@@ -184,17 +192,20 @@ const Order = ({ match, history }) => {
                   </li>
                 )}
 
-                {userInfo && order.isPaid && !order.isDelivered && userInfo.isAdmin && (
-                  <li>
-                    <button
-                      type='button'
-                      className='btn btn-padding btn-block text-uppercase bg-dark text-light'
-                      onClick={deliverHandler}
-                    >
-                      Mark As Delivered
-                    </button>
-                  </li>
-                )}
+                {userInfo &&
+                  order.isPaid &&
+                  !order.isDelivered &&
+                  userInfo.isAdmin && (
+                    <li>
+                      <button
+                        type='button'
+                        className='btn btn-padding btn-block text-uppercase bg-dark text-light'
+                        onClick={deliverHandler}
+                      >
+                        Mark As Delivered
+                      </button>
+                    </li>
+                  )}
               </ul>
             </Card>
           </div>

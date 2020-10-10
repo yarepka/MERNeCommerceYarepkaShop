@@ -4,7 +4,7 @@
   grid-gap: 1rem;
 }
 
-.place-order-content h2 {
+.place-order-content h2:not(:last-child) {
   margin-bottom: 1rem;
 }
 
@@ -21,4 +21,10 @@
 .place-order-content .order-summary li:not(:last-of-type),
 .place-order-content .order-summary li:not(:last-of-type) {
   border-bottom: 1px solid #f4f4f4;
+}
+
+@media (max-width: 600px) {
+  .place-order-content {
+    display: block;
+  }
 }

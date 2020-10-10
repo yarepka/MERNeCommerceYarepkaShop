@@ -22,3 +22,43 @@
 .product .product-price-status-cart li:not(:last-of-type) {
   border-bottom: 1px solid #f4f4f4;
 }
+
+@media (max-width: 900px) {
+  .product .product-info li {
+    padding: 0.5rem 0;
+  }
+
+  .product {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .product .product-image {
+    grid-area: img;
+    width: 300px;
+    justify-self: center;
+  }
+
+  .product .product-price-info {
+    grid-area: price;
+  }
+
+  .product .product-info {
+    grid-area: info;
+  }
+
+  .product {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      'info'
+      'img'
+      'price';
+  }
+}
+
+@media (max-width: 600px) {
+  .product .product-image {
+    width: 100%;
+  }
+}

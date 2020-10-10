@@ -1,6 +1,8 @@
 import axios from 'axios';
 
 import {
+  PRODUCT_LOAD_PAGE_SUCCESS,
+  PRODUCT_LOAD_PAGE_FAIL,
   PRODUCT_LIST_REQUEST,
   PRODUCT_LIST_SUCCESS,
   PRODUCT_LIST_FAIL,
@@ -10,24 +12,64 @@ import {
   PRODUCT_DELETE_REQUEST,
   PRODUCT_DELETE_SUCCESS,
   PRODUCT_DELETE_FAIL,
-  CLEAR_PRODUCT,
   PRODUCT_CREATE_REQUEST,
   PRODUCT_CREATE_SUCCESS,
   PRODUCT_CREATE_FAIL,
   PRODUCT_UPDATE_REQUEST,
   PRODUCT_UPDATE_SUCCESS,
   PRODUCT_UPDATE_FAIL,
-  PRODUCT_UPDATE_RESET,
+  PRODUCT_CREATE_REVIEW_REQUEST,
+  PRODUCT_CREATE_REVIEW_SUCCESS,
+  PRODUCT_CREATE_REVIEW_FAIL,
 } from './types';
 
-export const listProducts = () => {
+export const loadProductsPage = (keyword = '') => {
+  return async (dispatch, getState) => {
+    try {
+      const {
+        productLoadPage: { date, page },
+      } = getState();
+
+      const nextPage = page + 1;
+      const currentDate = date !== null ? date : new Date().getTime();
+
+      const { data } = await axios.get(
+        `/api/products/loadPage?page=${nextPage}&date=${currentDate}&keyword=${keyword}`
+      );
+
+      console.log(
+        `[loadProductsPage]: in action.\nproducts=${data}\nnextPage=${nextPage}\ncurrentDate=${currentDate}`
+      );
+
+      dispatch({
+        type: PRODUCT_LOAD_PAGE_SUCCESS,
+        payload: {
+          products: data,
+          page: nextPage,
+          date: currentDate,
+        },
+      });
+    } catch (err) {
+      dispatch({
+        type: PRODUCT_LOAD_PAGE_FAIL,
+        // remember we putted custom error handler
+        payload:
+          err.response && err.response.data.message
+            ? err.response.data.message
+            : err.message,
+      });
+    }
+  };
+};
+
+export const listProducts = (keyword = '') => {
   return async (dispatch) => {
     try {
       dispatch({
         type: PRODUCT_LIST_REQUEST,
       });
 
-      const { data } = await axios.get('/api/products');
+      const { data } = await axios.get(`/api/products?keyword=${keyword}`);
 
       dispatch({
         type: PRODUCT_LIST_SUCCESS,
@@ -156,9 +198,6 @@ export const updateProduct = (product) => {
         },
       };
 
-      console.log(product.image);
-      console.log(typeof product.image);
-
       if (product.image instanceof File) {
         // upload an image
         const formData = new FormData();
@@ -203,10 +242,34 @@ export const updateProduct = (product) => {
   };
 };
 
-export const clearProduct = () => {
-  return async (dispatch) => {
-    dispatch({
-      type: CLEAR_PRODUCT,
-    });
+export const createProductReview = (productId, review) => {
+  return async (dispatch, getState) => {
+    try {
+      dispatch({ type: PRODUCT_CREATE_REVIEW_REQUEST });
+
+      const {
+        userLogin: { userInfo },
+      } = getState();
+
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
+
+      await axios.post(`/api/products/${productId}/reviews`, review, config);
+
+      dispatch({ type: PRODUCT_CREATE_REVIEW_SUCCESS });
+    } catch (err) {
+      dispatch({
+        type: PRODUCT_CREATE_REVIEW_FAIL,
+        // remember we putted custom error handler
+        payload:
+          err.response && err.response.data.message
+            ? err.response.data.message
+            : err.message,
+      });
+    }
   };
 };

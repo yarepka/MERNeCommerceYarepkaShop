@@ -33,7 +33,7 @@ const ProductItem = ({
         <Rating value={rating} text={`${numReviews} reviews`} />
       </div>
 
-      <h3 className='product-item-text'>${price}</h3>
+      <h3 className='product-item-text'>${Number(price).toFixed(2)}</h3>
     </Card>
   );
 };

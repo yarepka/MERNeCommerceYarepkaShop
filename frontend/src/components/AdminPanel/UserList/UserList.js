@@ -86,23 +86,19 @@ const UserList = ({ history }) => {
                   </strong>
                 </li>
 
-                <li className='user-data-list-item'>
-                  <div>
-                    <Link
-                      className='btn bg-grey text-dark btn-padding btn-block text-centered'
-                      to={`/admin/user/${user.id}/edit`}
-                    >
-                      <i className='fas fa-edit'></i>
-                    </Link>
-                  </div>
-                  <div>
-                    <button
-                      className='btn bg-danger text-light btn-block text-centered btn-padding'
-                      onClick={() => deleteHandler(user.id)}
-                    >
-                      <i className='fas fa-trash'></i>
-                    </button>
-                  </div>
+                <li className='user-data-list-item flex'>
+                  <Link
+                    className='btn bg-grey text-dark btn-padding btn-block text-centered'
+                    to={`/admin/user/${user.id}/edit`}
+                  >
+                    <i className='fas fa-edit'></i>
+                  </Link>
+                  <button
+                    className='btn bg-danger text-light btn-block text-centered btn-padding'
+                    onClick={() => deleteHandler(user.id)}
+                  >
+                    <i className='fas fa-trash'></i>
+                  </button>
                 </li>
               </ul>
             </li>

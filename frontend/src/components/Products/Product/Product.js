@@ -14,7 +14,7 @@ const Product = ({ product, match, history }) => {
 
   return (
     <div className='product'>
-      <img src={product.image} />
+      <img className='product-image' src={product.image} />
       <ul className='product-info'>
         <li>
           <h3>{product.name}</h3>
@@ -28,7 +28,7 @@ const Product = ({ product, match, history }) => {
         <li>Price: ${product.price}</li>
         <li>Description: {product.description}</li>
       </ul>
-      <Card className='p-0'>
+      <Card className='p-0 product-price-info'>
         <ul className='product-price-status-cart'>
           <li>
             <div>Price: </div>

@@ -8,6 +8,11 @@ nav .container {
   justify-content: space-between;
 }
 
+nav .container > div {
+  display: flex;
+  align-items: center;
+}
+
 nav ul {
   display: flex;
   align-items: center;
@@ -15,4 +20,59 @@ nav ul {
 
 nav ul li:not(:last-of-type) {
   margin-right: 1rem;
+}
+
+@media (max-width: 900px) {
+  nav .container > div {
+    display: block;
+  }
+
+  nav {
+    padding-top: 1rem !important;
+    padding-bottom: 1rem !important;
+  }
+}
+
+@media (max-width: 600px) {
+  nav .brand {
+    text-align: center;
+    display: block;
+    width: 200px;
+    margin: auto;
+    margin-bottom: 1rem;
+  }
+
+  nav ul {
+    display: block;
+  }
+
+  nav ul li .btn {
+    width: 100%;
+    display: block;
+    text-align: center;
+    border: 2px solid #fff;
+    padding: 0.5rem 1rem;
+  }
+
+  nav ul li:not(:last-child) {
+    margin-bottom: 1rem;
+  }
+
+  nav ul li:not(:last-of-type) {
+    margin-right: 0;
+  }
+
+  nav .container {
+    display: block;
+  }
+
+  nav .search-box-form {
+    display: grid;
+    grid-template-columns: 4fr 1fr;
+    margin-bottom: 1rem;
+  }
+
+  nav .search-box-form input {
+    padding-left: 1rem;
+  }
 }

@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 
@@ -8,7 +8,7 @@ const AdminPanel = ({ history }) => {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
-  if (!userInfo.isAdmin) history.push('/');
+  if (!userInfo || !userInfo.isAdmin) history.push('/');
 
   return (
     <Fragment>

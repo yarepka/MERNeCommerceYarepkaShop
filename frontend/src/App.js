@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { Route } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
@@ -46,6 +46,16 @@ const App = () => {
           <Route path='/order/:id' component={OrderPage} exact />
           <Route path='/product/:id' component={ProductPage} exact />
           <Route path='/cart/:id?' component={CartPage} exact />
+
+          <Switch>
+            <Route
+              path='/search/:keyword'
+              component={(props) => (
+                <HomePage {...props} key={window.location.pathname} />
+              )}
+            />
+          </Switch>
+
           <Route path='/' component={HomePage} exact />
         </Container>
       </main>

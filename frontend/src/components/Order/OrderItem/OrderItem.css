@@ -6,3 +6,16 @@
   border-bottom: 2px solid #f4f4f4;
   align-items: center;
 }
+
+@media (max-width: 600px) {
+  .order-list-item {
+    display: block;
+  }
+
+  .order-list-item .order-list-item-image {
+    width: 200px;
+    display: block;
+    margin: auto;
+    margin-bottom: 0.5rem;
+  }
+}

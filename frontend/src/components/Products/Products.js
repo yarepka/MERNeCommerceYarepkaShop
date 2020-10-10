@@ -1,48 +1,59 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import InfiniteScroll from 'react-infinite-scroller';
 
-import { listProducts, clearProduct } from '../../redux/actions/productActions';
-import { PRODUCT_LIST_RESET } from '../../redux/actions/types';
+import { loadProductsPage } from '../../redux/actions/productActions';
+import { PRODUCT_LOAD_PAGE_RESET } from '../../redux/actions/types';
 import Spinner from '../Spinner/Spinner';
 import Message from '../Message/Message';
 import ProductItem from './ProductItem/ProductItem';
 import './Products.css';
 
-const Products = () => {
-  // dispatch(action()) instead passing functions object to
-  // second argument of connect function from react-redux
-  const dispatch = useDispatch();
-  // useSelector instead of mapStateToProps
-  const productList = useSelector((state) => state.productList);
-  const { loading, error, products } = productList;
+const Products = ({ match }) => {
+  const keyword = match.params.keyword;
 
-  useEffect(() => {
-    dispatch(listProducts());
-    dispatch(clearProduct());
-  }, [dispatch]);
+  const dispatch = useDispatch();
+
+  const productLoadPage = useSelector((state) => state.productLoadPage);
+  const { loading, error, products, hasMore } = productLoadPage;
+
+  console.log(`[Products.js]: rendering`);
 
   useEffect(() => {
     return () => {
-      console.log('exit');
-      dispatch({ type: PRODUCT_LIST_RESET });
+      console.log(`[Products.js]: ${PRODUCT_LOAD_PAGE_RESET} action dispatch`);
+      dispatch({ type: PRODUCT_LOAD_PAGE_RESET });
     };
   }, []);
 
+  useEffect(() => {
+    loadProducts();
+  }, []);
+
+  const loadProducts = () => {
+    console.log(`[Products.js]: loadProducts\npage=${productLoadPage.page}`);
+    dispatch(loadProductsPage(keyword));
+  };
+
+  const productItems = products.map((product) => (
+    <ProductItem key={product.id} product={product} />
+  ));
+
+  console.log(`[Products.js]: before return`);
   return loading ? (
     <Spinner />
   ) : error ? (
     <Message type='danger'>{error}</Message>
   ) : (
-    <div className='products'>
-      {products.map((product) => (
-        <ProductItem key={product.id} product={product} />
-      ))}
-    </div>
+    <InfiniteScroll
+      className='products'
+      hasMore={hasMore}
+      loadMore={loadProducts}
+    >
+      {productItems}
+    </InfiniteScroll>
   );
 };
 
-const mapStateToProps = (state) => ({
-  productList: state.productList,
-});
-
-export default Products;
+export default withRouter(Products);

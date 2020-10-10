@@ -5,15 +5,23 @@ import asyncHandler from 'express-async-handler';
 import Product from '../models/product.js';
 
 // @desc    Get next page with products
-// @route   GET /api/products/loadPage?page=1&date=4235235&perPage=1
+// @route   GET /api/products/loadPage?page=1&date=4235235&keyword=''&perPage=1
 // @access  Public
 const getProductsPage = asyncHandler(async (req, res) => {
   // Get page
-  const page = parseInt(req.query.page);
-  const dateInMilliseconds = parseInt(req.query.date);
+  const page = Number(req.query.page);
+  const dateInMilliseconds = Number(req.query.date);
   const productsPerPage = req.query.perPage
-    ? parseInt(req.query.perPage)
-    : parseInt(process.env.PRODUCTS_PER_PAGE);
+    ? Number(req.query.perPage)
+    : Number(process.env.PRODUCTS_PER_PAGE);
+  const keyword = req.query.keyword
+    ? {
+        name: {
+          $regex: req.query.keyword,
+          $options: 'i', // case insensetive
+        },
+      }
+    : {};
 
   if (!page && !dateInMilliseconds) {
     res.status(400);
@@ -24,6 +32,7 @@ const getProductsPage = asyncHandler(async (req, res) => {
 
   // Get next page products
   const products = await Product.find({
+    ...keyword,
     createdAt: { $lte: dateFromMilliseconds },
   })
     .sort({ createdAt: 'desc' })
@@ -37,7 +46,17 @@ const getProductsPage = asyncHandler(async (req, res) => {
 // @route   GET /api/products
 // @access  Public
 const getProducts = asyncHandler(async (req, res) => {
-  const products = await Product.find({});
+  const keyword = req.query.keyword
+    ? {
+        name: {
+          $regex: req.query.keyword,
+          $options: 'i', // case insensetive
+        },
+      }
+    : {};
+
+  const products = await Product.find({ ...keyword });
+
   return res.status(200).send(products);
 });
 
@@ -104,8 +123,6 @@ const updateProduct = asyncHandler(async (req, res) => {
     image,
   } = req.body;
 
-  console.log(req.body);
-
   const product = await Product.findById(req.params.id);
 
   if (!product) {
@@ -125,6 +142,48 @@ const updateProduct = asyncHandler(async (req, res) => {
   res.send(updatedProduct);
 });
 
+// @desc    Create new review
+// @route   POST /api/products/:id/reviews
+// @access  Private
+const createProductReview = asyncHandler(async (req, res) => {
+  const { rating, comment } = req.body;
+
+  const product = await Product.findById(req.params.id);
+
+  if (!product) {
+    res.status(404);
+    throw new Error('Product not found');
+  }
+
+  // check if the product was already reviewed by current user
+  const alreadyReviewed = product.reviews.find(
+    (review) => review.user.toString() === req.user._id.toString()
+  );
+
+  if (alreadyReviewed) {
+    res.status(400);
+    throw new Error('Product already reviewed');
+  }
+
+  const review = {
+    name: req.user.name,
+    rating: Number(rating),
+    comment,
+    user: req.user._id,
+  };
+
+  product.reviews.push(review);
+
+  product.numReviews = product.reviews.length;
+  product.rating =
+    product.reviews.reduce((acc, review) => {
+      return review.rating + acc;
+    }, 0) / product.numReviews;
+
+  await product.save();
+  res.status(201).send({ message: 'Review added' });
+});
+
 export {
   getProducts,
   getProductById,
@@ -132,4 +191,5 @@ export {
   deleteProduct,
   createProduct,
   updateProduct,
+  createProductReview,
 };

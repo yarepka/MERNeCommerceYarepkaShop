@@ -8,7 +8,7 @@ import './Orders.css';
 const Orders = ({ orders, error }) => {
   return (
     <div className='orders'>
-      <h2 className='text-uppercase'>My Orders</h2>
+      <h2 className='text-uppercase text-centered-on-mobile'>My Orders</h2>
       {error && <Message type='danger'>{error}</Message>}
       {orders.length === 0 ? (
         <Message>You have no orders</Message>

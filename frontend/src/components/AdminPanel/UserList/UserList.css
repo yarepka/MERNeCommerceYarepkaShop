@@ -3,7 +3,7 @@
   border-radius: 3px;
 }
 
-.users-list .users-list-item {
+.users-list .users-list-item:not(:last-child) {
   margin-bottom: 2rem;
 }
 
@@ -17,4 +17,32 @@
 
 .users-list .user-data-list li:not(:last-of-type) {
   border-bottom: 2px solid #f4f4f4;
+}
+
+@media (max-width: 600px) {
+  .users-list .user-data-list li {
+    grid-template-columns: 1fr 2fr;
+  }
+
+  .users-list .user-data-list li p {
+    font-size: 0.9rem;
+  }
+
+  .users-list .user-data-list li:first-of-type strong {
+    font-size: 0.8rem;
+  }
+
+  .users-list .user-data-list li {
+    padding: 0.7rem;
+  }
+}
+
+@media (max-width: 300px) {
+  .users-list .user-data-list li:first-of-type strong {
+    font-size: 0.6rem;
+  }
+
+  .users-list .user-data-list li p {
+    font-size: 0.8rem;
+  }
 }

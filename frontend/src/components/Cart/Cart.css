@@ -5,6 +5,7 @@
 }
 
 .cart-item:not(:last-of-type) {
+  padding-bottom: 1rem;
   border-bottom: 2px solid #f4f4f4;
 }
 

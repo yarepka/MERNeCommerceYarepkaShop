@@ -7,7 +7,7 @@
   border-radius: 3px;
 }
 
-.orders .profile-orders-list .profile-orders-list-item {
+.orders .profile-orders-list .profile-orders-list-item:not(:last-child) {
   margin-bottom: 2rem;
 }
 
@@ -24,4 +24,39 @@
   .profile-orders-list-item-data-list
   li:not(:last-of-type) {
   border-bottom: 2px solid #f4f4f4;
+}
+
+@media (max-width: 600px) {
+  .orders .profile-orders-list .profile-orders-list-item-data-list li {
+    grid-template-columns: 1fr 2fr;
+  }
+
+  .orders profile-orders-list .profile-orders-list-item-data-list li p {
+    font-size: 0.9rem;
+  }
+
+  .orders.profile-orders-list
+    .profile-orders-list-item-data-list
+    li:first-of-type
+    strong {
+    font-size: 0.8rem;
+  }
+
+  .orders .profile-orders-list .profile-orders-list-item-data-list li {
+    padding: 0.7rem;
+  }
+}
+
+@media (max-width: 300px) {
+  .orders
+    .profile-orders-list
+    .profile-orders-list-item-data-list
+    li:first-of-type
+    strong {
+    font-size: 0.6rem;
+  }
+
+  .orders .profile-orders-list .profile-orders-list-item-data-list li p {
+    font-size: 0.8rem;
+  }
 }

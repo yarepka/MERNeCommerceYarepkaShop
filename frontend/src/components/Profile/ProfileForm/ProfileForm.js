@@ -54,7 +54,7 @@ const ProfileForm = ({ history, setMessage }) => {
 
   return (
     <FormContainer>
-      <h2 className='text-uppercase'>User Profile</h2>
+      <h2 className='text-uppercase text-centered-on-mobile'>User Profile</h2>
       {success && (
         <Message type='success' size='small'>
           Profile updated
@@ -63,7 +63,7 @@ const ProfileForm = ({ history, setMessage }) => {
       {loading ? (
         <Spinner />
       ) : (
-        <form onSubmit={submitHandler}>
+        <form className='profile-form' onSubmit={submitHandler}>
           <FormGroup>
             <label>Name</label>
             <input

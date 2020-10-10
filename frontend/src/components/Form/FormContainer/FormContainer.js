@@ -2,11 +2,13 @@ import React from 'react';
 
 import './FormContainer.css';
 
-const FormContainer = ({ children, type }) => {
-  const className = type ? `form-wrapper-${type}` : 'form-wrapper';
+const FormContainer = ({ children, type, className }) => {
+  let classNameFinal = type ? `form-wrapper-${type}` : 'form-wrapper';
+  classNameFinal = classNameFinal + (className ? ` ${className}` : '');
+
   return (
     <div className='form-container'>
-      <div className={className}>{children}</div>
+      <div className={classNameFinal}>{children}</div>
     </div>
   );
 };

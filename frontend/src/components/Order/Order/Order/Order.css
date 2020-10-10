@@ -1,10 +1,14 @@
+.orderId {
+  letter-spacing: 0;
+}
+
 .order-content {
   display: grid;
   grid-template-columns: 2fr 1fr;
   grid-gap: 1rem;
 }
 
-.order-content h2 {
+.order-content h2:not(:last-child) {
   margin-bottom: 1rem;
 }
 
@@ -21,4 +25,21 @@
 .order-content .order-summary li:not(:last-of-type),
 .order-content .order-summary li:not(:last-of-type) {
   border-bottom: 1px solid #f4f4f4;
+}
+
+@media (max-width: 600px) {
+  .order-content {
+    display: block;
+  }
+
+  .orderId {
+    display: block;
+    font-size: 1.15rem;
+  }
+}
+
+@media (max-width: 300px) {
+  .orderId {
+    font-size: 0.9rem;
+  }
 }

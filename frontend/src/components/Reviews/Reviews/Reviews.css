@@ -1,0 +1,8 @@
+.reviews-list li {
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #f4f4f4;
+}
+
+.reviews-list .review-comment {
+  margin-top: 1rem;
+}

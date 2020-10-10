@@ -3,7 +3,7 @@
   border: 2px solid #f4f4f4;
 }
 
-.ordersAdmin-list .ordersAdmin-list-item {
+.ordersAdmin-list .ordersAdmin-list-item:not(:last-child) {
   margin-bottom: 2rem;
 }
 
@@ -21,4 +21,32 @@
 
 .ordersAdmin-list .orderAdmin-data-list li:not(:last-of-type) {
   border-bottom: 2px solid #f4f4f4;
+}
+
+@media (max-width: 600px) {
+  .ordersAdmin-list .orderAdmin-data-list li {
+    grid-template-columns: 1fr 2fr;
+  }
+
+  .ordersAdmin-list .orderAdmin-data-list li p {
+    font-size: 0.9rem;
+  }
+
+  .ordersAdmin-list .orderAdmin-data-list li:first-of-type strong {
+    font-size: 0.8rem;
+  }
+
+  .ordersAdmin-list .orderAdmin-data-list li {
+    padding: 0.7rem;
+  }
+}
+
+@media (max-width: 300px) {
+  .ordersAdmin-list .orderAdmin-data-list li:first-of-type strong {
+    font-size: 0.6rem;
+  }
+
+  .ordersAdmin-list .orderAdmin-data-list li p {
+    font-size: 0.8rem;
+  }
 }

@@ -29,7 +29,7 @@ const ShippingForm = ({ history }) => {
   return (
     <FormContainer type='centered'>
       <CheckoutSteps step1 step2 />
-      <h1 className='text-uppercase'>Shipping</h1>
+      <h1 className='text-uppercase text-centered-on-mobile'>Shipping</h1>
       <form onSubmit={submitHandler}>
         <FormGroup>
           <label>Address</label>
@@ -75,7 +75,10 @@ const ShippingForm = ({ history }) => {
           />
         </FormGroup>
 
-        <button type='submit' className='btn btn-dark text-uppercase'>
+        <button
+          type='submit'
+          className='btn btn-dark text-uppercase block-on-mobile'
+        >
           Continue
         </button>
       </form>
