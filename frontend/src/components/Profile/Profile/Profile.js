@@ -1,5 +1,6 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
 import ProfileForm from '../ProfileForm/ProfileForm';
 import Orders from '../Orders/Orders';
@@ -9,10 +10,15 @@ import './Profile.css';
 import { listMyOrders } from '../../../redux/actions/orderActions';
 import { ORDER_LIST_MYORDERS_RESET } from '../../../redux/actions/types';
 
-const Profile = () => {
+const Profile = ({ history }) => {
   const [message, setMessage] = useState(null);
 
   const dispatch = useDispatch();
+
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
+  if (!userInfo) history.push('/login?redirect=profile');
 
   const userDetails = useSelector((state) => state.userDetails);
   const { error } = userDetails;
@@ -48,4 +54,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default withRouter(Profile);

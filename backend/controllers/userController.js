@@ -108,6 +108,35 @@ const updateUserProfile = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc    Get next page with users
+// @route   GET /api/users/loadPage?page=1&date=4235235&perPage=1
+// @access  Private/Admin
+const getUsersPage = asyncHandler(async (req, res) => {
+  // Get page
+  const page = Number(req.query.page);
+  const dateInMilliseconds = Number(req.query.date);
+  const usersPerPage = req.query.perPage
+    ? Number(req.query.perPage)
+    : Number(process.env.PRODUCTS_PER_PAGE);
+
+  if (!page && !dateInMilliseconds) {
+    res.status(400);
+    throw new Error('page and date query parameters must be specified');
+  }
+
+  const dateFromMilliseconds = new Date(dateInMilliseconds);
+
+  // Get next page products
+  const users = await User.find({
+    createdAt: { $lte: dateFromMilliseconds },
+  })
+    .sort({ createdAt: 'desc' })
+    .skip((page - 1) * usersPerPage)
+    .limit(usersPerPage);
+
+  return res.status(200).send(users);
+});
+
 // @desc    Get all users
 // @route   GET /api/users
 // @access  Private/Admin
@@ -180,6 +209,7 @@ export {
   registerUser,
   updateUserProfile,
   getUsers,
+  getUsersPage,
   deleteUser,
   getUserById,
   updateUser,

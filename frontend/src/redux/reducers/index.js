@@ -17,6 +17,7 @@ import {
   userDetailsReducer,
   userUpdateProfileReducer,
   userListReducer,
+  userListLoadPageReducer,
   userDeleteReducer,
   userUpdateReducer,
 } from './userReducers';
@@ -46,6 +47,7 @@ export default combineReducers({
   userDelete: userDeleteReducer,
   userUpdate: userUpdateReducer,
   userList: userListReducer,
+  userListLoadPage: userListLoadPageReducer,
   orderCreate: orderCreateReducer,
   orderDetails: orderDetailsReducer,
   orderPay: orderPayReducer,

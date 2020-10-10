@@ -104,6 +104,66 @@ const updateOrderToDelivered = asyncHandler(async (req, res) => {
   res.send(updatedOrder);
 });
 
+// @desc    Get current user orders page
+// @route   GET /api/orders/myorders/loadPage?page=1&date=4235235&perPage=1
+// @access  Private
+const getMyOrdersPage = asyncHandler(async (req, res) => {
+  // Get page
+  const page = Number(req.query.page);
+  const dateInMilliseconds = Number(req.query.date);
+  const ordersPerPage = req.query.perPage
+    ? Number(req.query.perPage)
+    : Number(process.env.ORDERS_PER_PAGE);
+
+  if (!page && !dateInMilliseconds) {
+    res.status(400);
+    throw new Error('page and date query parameters must be specified');
+  }
+
+  const dateFromMilliseconds = new Date(dateInMilliseconds);
+
+  // Get next page products
+  const orders = await Order.find({
+    user: req.user._id,
+    createdAt: { $lte: dateFromMilliseconds },
+  })
+    .sort({ createdAt: 'desc' })
+    .skip((page - 1) * ordersPerPage)
+    .limit(ordersPerPage);
+
+  return res.status(200).send(orders);
+});
+
+// @desc    Get orders page
+// @route   GET /api/orders/myorders/loadPage?page=1&date=4235235&perPage=1
+// @access  Private/Admin
+const getOrdersPage = asyncHandler(async (req, res) => {
+  // Get page
+  const page = Number(req.query.page);
+  const dateInMilliseconds = Number(req.query.date);
+  const ordersPerPage = req.query.perPage
+    ? Number(req.query.perPage)
+    : Number(process.env.ORDERS_PER_PAGE);
+
+  if (!page && !dateInMilliseconds) {
+    res.status(400);
+    throw new Error('page and date query parameters must be specified');
+  }
+
+  const dateFromMilliseconds = new Date(dateInMilliseconds);
+
+  // Get next page products
+  const orders = await Order.find({
+    createdAt: { $lte: dateFromMilliseconds },
+  })
+    .sort({ createdAt: 'desc' })
+    .skip((page - 1) * ordersPerPage)
+    .limit(ordersPerPage)
+    .populate('user', 'id name');
+
+  return res.status(200).send(orders);
+});
+
 // @desc    Get logged in user orders
 // @route   GET /api/orders/myorders
 // @access  Private
@@ -127,4 +187,6 @@ export {
   updateOrderToDelivered,
   getMyOrders,
   getOrders,
+  getMyOrdersPage,
+  getOrdersPage,
 };

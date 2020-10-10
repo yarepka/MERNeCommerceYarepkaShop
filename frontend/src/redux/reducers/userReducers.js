@@ -18,9 +18,13 @@ import {
   USER_LIST_SUCCESS,
   USER_LIST_FAIL,
   USER_LIST_RESET,
+  USER_LIST_LOAD_PAGE_SUCCESS,
+  USER_LIST_LOAD_PAGE_FAIL,
+  USER_LIST_LOAD_PAGE_RESET,
   USER_DELETE_REQUEST,
   USER_DELETE_SUCCESS,
   USER_DELETE_FAIL,
+  USER_DELETE_RESET,
   USER_UPDATE_REQUEST,
   USER_UPDATE_SUCCESS,
   USER_UPDATE_FAIL,
@@ -106,6 +110,39 @@ export const userListReducer = (
   }
 };
 
+export const userListLoadPageReducer = (
+  state = { hasMore: true, loading: true, users: [], page: 0, date: null },
+  action
+) => {
+  switch (action.type) {
+    case USER_LIST_LOAD_PAGE_SUCCESS:
+      return {
+        ...state,
+        users: state.users.concat(action.payload.users),
+        hasMore: action.payload.users.length > 0 ? true : false,
+        loading: false,
+        date: action.payload.date,
+        page: action.payload.page,
+      };
+    case USER_LIST_LOAD_PAGE_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    case USER_LIST_LOAD_PAGE_RESET:
+      return {
+        hasMore: true,
+        loading: true,
+        users: [],
+        page: 0,
+        date: null,
+      };
+    default:
+      return state;
+  }
+};
+
 export const userDeleteReducer = (state = {}, action) => {
   switch (action.type) {
     case USER_DELETE_REQUEST:
@@ -114,6 +151,8 @@ export const userDeleteReducer = (state = {}, action) => {
       return { loading: false, success: true };
     case USER_DELETE_FAIL:
       return { loading: false, error: action.payload };
+    case USER_DELETE_RESET:
+      return { success: false };
     default:
       return state;
   }

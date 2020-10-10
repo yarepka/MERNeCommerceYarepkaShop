@@ -68,7 +68,6 @@ const ProductList = ({ history }) => {
   };
 
   const loadListProducts = () => {
-    console.log(':)');
     dispatch(loadListProductsPage());
   };
 

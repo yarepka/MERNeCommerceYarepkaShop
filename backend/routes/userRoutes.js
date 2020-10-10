@@ -6,11 +6,17 @@ import {
   getUserProfile,
   updateUserProfile,
   getUsers,
+  getUsersPage,
   deleteUser,
   getUserById,
   updateUser,
 } from '../controllers/userController.js';
 import { protect, admin } from '../middleware/authMiddleware.js';
+
+// @desc    Get next page with users
+// @route   GET /api/users/loadPage?page=1&date=4235235&perPage=1
+// @access  Private/Admin
+router.route('/loadPage').get(protect, admin, getUsersPage);
 
 // @desc    Get all users
 // @route   GET /api/users

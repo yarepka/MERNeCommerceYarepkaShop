@@ -18,6 +18,8 @@ import {
   USER_LIST_SUCCESS,
   USER_LIST_FAIL,
   USER_LIST_RESET,
+  USER_LIST_LOAD_PAGE_SUCCESS,
+  USER_LIST_LOAD_PAGE_FAIL,
   USER_DELETE_REQUEST,
   USER_DELETE_SUCCESS,
   USER_DELETE_FAIL,
@@ -227,6 +229,53 @@ export const listUsers = () => {
     } catch (err) {
       dispatch({
         type: USER_LIST_FAIL,
+        // remember we putted custom error handler
+        payload:
+          err.response && err.response.data.message
+            ? err.response.data.message
+            : err.message,
+      });
+    }
+  };
+};
+
+export const loadListUsersPage = () => {
+  return async (dispatch, getState) => {
+    try {
+      const {
+        userListLoadPage: { date, page },
+      } = getState();
+
+      const {
+        userLogin: { userInfo },
+      } = getState();
+
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
+
+      const nextPage = page + 1;
+      const currentDate = date !== null ? date : new Date().getTime();
+
+      const { data } = await axios.get(
+        `/api/users/loadPage?page=${nextPage}&date=${currentDate}`,
+        config
+      );
+
+      dispatch({
+        type: USER_LIST_LOAD_PAGE_SUCCESS,
+        payload: {
+          users: data,
+          page: nextPage,
+          date: currentDate,
+        },
+      });
+    } catch (err) {
+      dispatch({
+        type: USER_LIST_LOAD_PAGE_FAIL,
         // remember we putted custom error handler
         payload:
           err.response && err.response.data.message
