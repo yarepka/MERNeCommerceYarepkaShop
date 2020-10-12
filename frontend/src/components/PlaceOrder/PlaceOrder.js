@@ -1,6 +1,6 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 
 import Message from '../Message/Message';
 import Card from '../Card/Card';
@@ -8,10 +8,16 @@ import CheckoutSteps from '../CheckoutSteps/CheckoutSteps';
 import FormContainer from '../Form/FormContainer/FormContainer';
 import Orders from '../Order/Orders/Orders';
 import { createOrder } from '../../redux/actions/orderActions';
+import { ORDER_CREATE_RESET } from '../../redux/actions/types';
 
 import './PlaceOrder.css';
 
 const PlaceOrder = ({ history }) => {
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
+  if (!userInfo) history.push('/login?redirect=cart');
+
   const orderCreateState = useSelector((state) => state.orderCreate);
   const { order, success, error } = orderCreateState;
 
@@ -60,6 +66,12 @@ const PlaceOrder = ({ history }) => {
       })
     );
   };
+
+  useEffect(() => {
+    return () => {
+      dispatch({ type: ORDER_CREATE_RESET });
+    };
+  }, []);
 
   return (
     <Fragment>
@@ -125,7 +137,17 @@ const PlaceOrder = ({ history }) => {
                 </li>
                 {error && (
                   <li>
-                    <Message type='danger'>{error}</Message>
+                    <Message type='danger'>
+                      <p className='myb-1'>{error}</p>
+                      {error.includes('bought') && (
+                        <Link
+                          className='btn btn-block text-light bg-dark btn-padding'
+                          to='/cart'
+                        >
+                          Go Back To Cart
+                        </Link>
+                      )}
+                    </Message>
                   </li>
                 )}
                 <li>

@@ -2,6 +2,7 @@
 // router to the try{}catch{} block
 import asyncHandler from 'express-async-handler';
 import Order from '../models/order.js';
+import Product from '../models/product.js';
 
 // @desc    Create new order
 // @route   PORT /api/orders
@@ -17,26 +18,58 @@ const addOrderItems = asyncHandler(async (req, res) => {
     totalPrice,
   } = req.body;
 
+  // check if there are any orderItems
   if (orderItems && orderItems.length === 0) {
     res.status(400);
     throw new Error('No order');
-    return;
-  } else {
-    const order = new Order({
-      user: req.user._id,
-      orderItems,
-      shippingAddress,
-      paymentMethod,
-      itemsPrice,
-      taxPrice,
-      shippingPrice,
-      totalPrice,
-    });
-
-    const createdOrder = await order.save();
-
-    res.status(201).send(createdOrder);
   }
+
+  const products = [];
+  // check & update qty
+  for (let item of orderItems) {
+    const product = await Product.findById(item.product);
+    if (item.qty > product.countInStock) {
+      throw new Error(
+        'Trying to buy an item with invalid quantity. This happens whenever you are trying to buy an item, which has already been bought.'
+      );
+    }
+    product.countInStock -= item.qty;
+    products.push(product);
+  }
+
+  for (let product of products) {
+    await product.save();
+  }
+
+  const order = new Order({
+    user: req.user._id,
+    orderItems,
+    shippingAddress,
+    paymentMethod,
+    itemsPrice,
+    taxPrice,
+    shippingPrice,
+    totalPrice,
+  });
+
+  const createdOrder = await order.save();
+
+  setTimeout(async () => {
+    const order = await Order.findById(createdOrder._id);
+    if (!order.isPaid) {
+      // delete order and change product's countInStock value
+      for (let item of order.orderItems) {
+        const qty = item.qty;
+        const product = await Product.findById(item.product);
+        product.countInStock += qty;
+        await product.save();
+      }
+      // delete order
+      await order.remove();
+    }
+  }, 1000 * 60 * 5);
+
+  res.status(201).send(createdOrder);
 });
 
 // @desc    Get order by ID

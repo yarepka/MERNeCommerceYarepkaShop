@@ -12,12 +12,17 @@ import {
   ORDER_LIST_MYORDERS_REQUEST,
   ORDER_LIST_MYORDERS_SUCCESS,
   ORDER_LIST_MYORDERS_FAIL,
+  ORDER_LOAD_MYORDERS_PAGE_SUCCESS,
+  ORDER_LOAD_MYORDERS_PAGE_FAIL,
   ORDER_LIST_REQUEST,
   ORDER_LIST_SUCCESS,
   ORDER_LIST_FAIL,
+  ORDER_LIST_LOAD_PAGE_SUCCESS,
+  ORDER_LIST_LOAD_PAGE_FAIL,
   ORDER_DELIVER_REQUEST,
   ORDER_DELIVER_SUCCESS,
   ORDER_DELIVER_FAIL,
+  CART_CLEAR_CART,
 } from './types';
 
 export const createOrder = (order) => {
@@ -44,6 +49,10 @@ export const createOrder = (order) => {
       const { data } = await axios.post(`/api/orders`, order, config);
 
       dispatch({ type: ORDER_CREATE_SUCCESS, payload: data });
+
+      // clear cart
+      localStorage.removeItem('cartItems');
+      dispatch({ type: CART_CLEAR_CART });
     } catch (err) {
       dispatch({
         type: ORDER_CREATE_FAIL,
@@ -201,6 +210,53 @@ export const listMyOrders = () => {
   };
 };
 
+export const loadMyOrdersPage = () => {
+  return async (dispatch, getState) => {
+    try {
+      const {
+        orderLoadMyOrdersPage: { date, page },
+      } = getState();
+
+      const {
+        userLogin: { userInfo },
+      } = getState();
+
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
+
+      const nextPage = page + 1;
+      const currentDate = date !== null ? date : new Date().getTime();
+
+      const { data } = await axios.get(
+        `/api/orders/myorders/loadPage?page=${nextPage}&date=${currentDate}`,
+        config
+      );
+
+      dispatch({
+        type: ORDER_LOAD_MYORDERS_PAGE_SUCCESS,
+        payload: {
+          orders: data,
+          page: nextPage,
+          date: currentDate,
+        },
+      });
+    } catch (err) {
+      dispatch({
+        type: ORDER_LOAD_MYORDERS_PAGE_FAIL,
+        // remember we putted custom error handler
+        payload:
+          err.response && err.response.data.message
+            ? err.response.data.message
+            : err.message,
+      });
+    }
+  };
+};
+
 export const listOrders = () => {
   return async (dispatch, getState) => {
     try {
@@ -225,6 +281,53 @@ export const listOrders = () => {
     } catch (err) {
       dispatch({
         type: ORDER_LIST_FAIL,
+        // remember we putted custom error handler
+        payload:
+          err.response && err.response.data.message
+            ? err.response.data.message
+            : err.message,
+      });
+    }
+  };
+};
+
+export const loadListOrdersPage = () => {
+  return async (dispatch, getState) => {
+    try {
+      const {
+        orderListLoadPage: { date, page },
+      } = getState();
+
+      const {
+        userLogin: { userInfo },
+      } = getState();
+
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
+
+      const nextPage = page + 1;
+      const currentDate = date !== null ? date : new Date().getTime();
+
+      const { data } = await axios.get(
+        `/api/orders/loadPage?page=${nextPage}&date=${currentDate}`,
+        config
+      );
+
+      dispatch({
+        type: ORDER_LIST_LOAD_PAGE_SUCCESS,
+        payload: {
+          orders: data,
+          page: nextPage,
+          date: currentDate,
+        },
+      });
+    } catch (err) {
+      dispatch({
+        type: ORDER_LIST_LOAD_PAGE_FAIL,
         // remember we putted custom error handler
         payload:
           err.response && err.response.data.message

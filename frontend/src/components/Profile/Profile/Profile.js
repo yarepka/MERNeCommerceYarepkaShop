@@ -7,8 +7,8 @@ import Orders from '../Orders/Orders';
 import Message from '../../Message/Message';
 import Spinner from '../../Spinner/Spinner';
 import './Profile.css';
-import { listMyOrders } from '../../../redux/actions/orderActions';
-import { ORDER_LIST_MYORDERS_RESET } from '../../../redux/actions/types';
+import { loadMyOrdersPage } from '../../../redux/actions/orderActions';
+import { ORDER_LOAD_MYORDERS_PAGE_RESET } from '../../../redux/actions/types';
 
 const Profile = ({ history }) => {
   const [message, setMessage] = useState(null);
@@ -23,31 +23,45 @@ const Profile = ({ history }) => {
   const userDetails = useSelector((state) => state.userDetails);
   const { error } = userDetails;
 
-  const orderListMyOrders = useSelector((state) => state.orderListMyOrders);
+  const orderLoadMyOrdersPage = useSelector(
+    (state) => state.orderLoadMyOrdersPage
+  );
   const {
     orders,
-    loading: loadingMyOrders,
-    error: errorMyOrders,
-  } = orderListMyOrders;
+    hasMore,
+    loading: loadingMyOrderPage,
+    error: errorMyOrdersPage,
+  } = orderLoadMyOrdersPage;
 
   useEffect(() => {
-    console.log('list');
-    dispatch(listMyOrders());
+    loadMyOrders();
+  }, [userInfo]);
+
+  useEffect(() => {
     return () => {
-      dispatch({ type: ORDER_LIST_MYORDERS_RESET });
+      dispatch({ type: ORDER_LOAD_MYORDERS_PAGE_RESET });
     };
   }, []);
+
+  const loadMyOrders = () => {
+    dispatch(loadMyOrdersPage());
+  };
 
   return (
     <Fragment>
       {error && <Message type='danger'>{error}</Message>}
       {message && <Message type='danger'>{message}</Message>}
-      {loadingMyOrders ? (
+      {loadingMyOrderPage ? (
         <Spinner />
       ) : (
         <div className='profile'>
           <ProfileForm setMessage={setMessage} />
-          <Orders orders={orders} error={errorMyOrders} />
+          <Orders
+            orders={orders}
+            error={errorMyOrdersPage}
+            hasMore={hasMore}
+            load={loadMyOrders}
+          />
         </div>
       )}
     </Fragment>

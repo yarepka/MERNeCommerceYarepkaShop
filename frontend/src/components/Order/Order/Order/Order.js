@@ -16,6 +16,8 @@ import {
 import {
   ORDER_PAY_RESET,
   ORDER_DELIVER_RESET,
+  ORDER_DETAILS_RESET,
+  ORDER_CREATE_RESET,
 } from '../../../../redux/actions/types';
 
 import './Order.css';
@@ -78,6 +80,13 @@ const Order = ({ match, history }) => {
       }
     }
   }, [order, orderId, successPay, successDeliver]);
+
+  useEffect(() => {
+    return () => {
+      dispatch({ type: ORDER_DETAILS_RESET });
+      dispatch({ type: ORDER_CREATE_RESET });
+    };
+  }, []);
 
   const deliverHandler = () => {
     dispatch(deliverOrder(order.id));
@@ -166,7 +175,10 @@ const Order = ({ match, history }) => {
                 <li className='flex flex-justify-content-space-between'>
                   Items:{' '}
                   <strong>
-                    ${order.totalPrice - order.taxPrice - order.shippingPrice}
+                    $
+                    {Number(
+                      order.totalPrice - order.taxPrice - order.shippingPrice
+                    ).toFixed(2)}
                   </strong>
                 </li>
                 <li className='flex flex-justify-content-space-between'>

@@ -2,7 +2,9 @@ import React, { useEffect } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { addToCart } from '../../redux/actions/cartActions';
+import { CART_VALIDITY_RESET } from '../../redux/actions/types';
+import { addToCart, checkValidity } from '../../redux/actions/cartActions';
+import Spinner from '../Spinner/Spinner';
 import Message from '../Message/Message';
 import CartItem from './CartItem/CartItem';
 import Card from '../Card/Card';
@@ -16,8 +18,13 @@ const Cart = ({ match, location, history }) => {
 
   const dispatch = useDispatch();
 
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
   const cart = useSelector((state) => state.cart);
-  const { cartItems } = cart;
+  const { cartItems, valid, msg, error } = cart;
+
+  if (valid) history.push('/shipping');
 
   useEffect(() => {
     if (productId) {
@@ -25,8 +32,18 @@ const Cart = ({ match, location, history }) => {
     }
   }, [dispatch, productId, qty]);
 
+  useEffect(() => {
+    return () => {
+      dispatch({ type: CART_VALIDITY_RESET });
+    };
+  }, []);
+
   const checkoutHandler = () => {
-    history.push('/login?redirect=shipping');
+    if (!userInfo) {
+      history.push('/login?redirect=cart');
+    } else {
+      dispatch(checkValidity(cartItems));
+    }
   };
 
   return (
@@ -35,6 +52,8 @@ const Cart = ({ match, location, history }) => {
         <h1 className='text-uppercase myb-1 text-centered-on-mobile'>
           Shopping Cart
         </h1>
+        {error && <Message type='danger'>{error}</Message>}
+        {msg && <Message type='info'>{msg}</Message>}
         {cartItems.length === 0 ? (
           <Message>
             Your cart is empty{' '}

@@ -10,7 +10,9 @@ import { register } from '../../../redux/actions/userActions';
 
 import './RegisterForm.css';
 
-const RegisterForm = ({ history }) => {
+const RegisterForm = ({ history, location }) => {
+  const redirect = location.search ? location.search.split('=')[1] : '/';
+
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -21,7 +23,7 @@ const RegisterForm = ({ history }) => {
   const userLogin = useSelector((state) => state.userLogin);
 
   if (userLogin.userInfo) {
-    history.push('/');
+    history.push(redirect);
   }
 
   const userRegister = useSelector((state) => state.userRegister);
@@ -93,7 +95,7 @@ const RegisterForm = ({ history }) => {
           <Link
             style={{ color: '#333' }}
             className='btn btn-underlined text-underlined'
-            to='/login'
+            to={redirect ? `/login?redirect=${redirect}` : '/login'}
           >
             Login
           </Link>

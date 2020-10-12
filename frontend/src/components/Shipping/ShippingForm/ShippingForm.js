@@ -10,6 +10,11 @@ import CheckoutSteps from '../../CheckoutSteps/CheckoutSteps';
 import './ShippingForm.css';
 
 const ShippingForm = ({ history }) => {
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
+  if (!userInfo) history.push('/login?redirect=cart');
+
   const cart = useSelector((state) => state.cart);
   const { shippingAddress } = cart;
 

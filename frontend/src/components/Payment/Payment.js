@@ -9,6 +9,11 @@ import { savePaymentMethod } from '../../redux/actions/cartActions';
 
 import './Payment.css';
 const Payment = ({ history }) => {
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
+  if (!userInfo) history.push('/login?redirect=cart');
+
   const cart = useSelector((state) => state.cart);
   const { shippingAddress } = cart;
 

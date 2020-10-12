@@ -9,7 +9,7 @@ const CheckoutSteps = ({ step1, step2, step3, step4 }) => {
       <ul>
         <li>
           {step1 ? (
-            <Link to='/login' className='btn text-dark'>
+            <Link to='/login?redirect=/shipping' className='btn text-dark'>
               Sign In
             </Link>
           ) : (

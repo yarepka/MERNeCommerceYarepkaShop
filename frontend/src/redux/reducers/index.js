@@ -28,6 +28,8 @@ import {
   orderListMyOrdersReducer,
   orderListReducer,
   orderDeliverReducer,
+  orderListLoadPageReducer,
+  orderLoadMyOrdersPageReducer,
 } from './orderReducers';
 
 export default combineReducers({
@@ -54,4 +56,6 @@ export default combineReducers({
   orderDeliver: orderDeliverReducer,
   orderListMyOrders: orderListMyOrdersReducer,
   orderList: orderListReducer,
+  orderListLoadPage: orderListLoadPageReducer,
+  orderLoadMyOrdersPage: orderLoadMyOrdersPageReducer,
 });

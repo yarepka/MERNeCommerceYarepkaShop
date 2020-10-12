@@ -19,9 +19,6 @@ import './UserList.css';
 const UserList = ({ history }) => {
   const dispatch = useDispatch();
 
-  // const userList = useSelector((state) => state.userList);
-  // const { loading, error, users } = userList;
-
   const userListLoadPage = useSelector((state) => state.userListLoadPage);
   const { loading, users, error, hasMore } = userListLoadPage;
 

@@ -3,10 +3,15 @@ import {
   CART_REMOVE_ITEM,
   CART_SAVE_SHIPPING_ADDRESS,
   CART_SAVE_PAYMENT_METHOD,
+  CART_CLEAR_CART,
+  CART_VALIDITY_POSITIVE,
+  CART_VALIDITY_NEGATIVE,
+  CART_VALIDITY_FAIL,
+  CART_VALIDITY_RESET,
 } from '../actions/types';
 
 export const cartReducer = (
-  state = { cartItems: [], shippingAddress: {} },
+  state = { cartItems: [], shippingAddress: {}, valid: false },
   action
 ) => {
   switch (action.type) {
@@ -48,6 +53,39 @@ export const cartReducer = (
         ...state,
         paymentMethod: action.payload,
       };
+    case CART_CLEAR_CART:
+      return {
+        cartItems: [],
+        shippingAddress: state.shippingAddress,
+        paymentMethod: state.paymentMethod,
+        valid: false,
+      };
+    case CART_VALIDITY_POSITIVE: {
+      return {
+        ...state,
+        valid: true,
+      };
+    }
+    case CART_VALIDITY_NEGATIVE: {
+      return {
+        ...state,
+        cartItems: action.payload.cartItems,
+        msg: action.payload.msg,
+        valid: false,
+      };
+    }
+    case CART_VALIDITY_FAIL: {
+      return {
+        ...state,
+        error: action.payload,
+      };
+    }
+    case CART_VALIDITY_RESET: {
+      return {
+        ...state,
+        valid: false,
+      };
+    }
     default:
       return state;
   }

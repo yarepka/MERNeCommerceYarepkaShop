@@ -4,6 +4,9 @@ import {
   CART_REMOVE_ITEM,
   CART_SAVE_SHIPPING_ADDRESS,
   CART_SAVE_PAYMENT_METHOD,
+  CART_VALIDITY_POSITIVE,
+  CART_VALIDITY_NEGATIVE,
+  CART_VALIDITY_FAIL,
 } from '../actions/types';
 
 export const addToCart = (productId, qty) => {
@@ -68,5 +71,52 @@ export const savePaymentMethod = (paymentMethod) => {
     });
 
     localStorage.setItem('paymentMethod', JSON.stringify(paymentMethod));
+  };
+};
+
+export const checkValidity = (cartItems) => {
+  return async (dispatch, getState) => {
+    try {
+      const {
+        userLogin: { userInfo },
+      } = getState();
+
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
+
+      console.log(cartItems);
+
+      const { data } = await axios.post(
+        `/api/cart/checkValidity`,
+        cartItems,
+        config
+      );
+
+      if (data.msg) {
+        console.log(data);
+        dispatch({
+          type: CART_VALIDITY_NEGATIVE,
+          payload: {
+            cartItems: data.cartItems,
+            msg: data.msg,
+          },
+        });
+      } else {
+        dispatch({ type: CART_VALIDITY_POSITIVE, cartItems: data.cartItems });
+      }
+    } catch (err) {
+      dispatch({
+        type: CART_VALIDITY_FAIL,
+        // remember we putted custom error handler
+        payload:
+          err.response && err.response.data.message
+            ? err.response.data.message
+            : err.message,
+      });
+    }
   };
 };
