@@ -22,7 +22,10 @@ const ProductItem = ({
   return (
     <Card className='my-1 rounded product-item'>
       <Link to={`/product/${id}`}>
-        <img src={image} />
+        <img
+          style={{ width: '200px', height: '200px', objectFit: 'cover' }}
+          src={image}
+        />
       </Link>
 
       <div className='product-item-title my-1'>

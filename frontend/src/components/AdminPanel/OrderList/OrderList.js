@@ -42,6 +42,8 @@ const OrderList = ({ history }) => {
         <Spinner />
       ) : error ? (
         <Message type='danger'>{error}</Message>
+      ) : orders.length === 0 ? (
+        <Message>No orders were found</Message>
       ) : (
         <InfiniteScroll hasMore={hasMore} loadMore={loadListOrders}>
           <ul className='ordersAdmin-list'>
