@@ -1,3 +1,7 @@
+.search-box-form {
+  display: flex;
+}
+
 .search-box-form input {
   border-top-right-radius: 0;
   border-top-left-radius: 0;

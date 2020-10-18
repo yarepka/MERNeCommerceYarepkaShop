@@ -6,24 +6,17 @@ import Rating from '../Rating/Rating';
 import './ProductItem.css';
 
 const ProductItem = ({
-  product: {
-    id,
-    name,
-    image,
-    description,
-    brand,
-    category,
-    price,
-    countInStock,
-    rating,
-    numReviews,
-  },
+  product: { id, name, image, price, rating, numReviews },
 }) => {
   return (
     <Card className='my-1 rounded product-item'>
       <Link to={`/product/${id}`}>
         <img
-          style={{ width: '200px', height: '200px', objectFit: 'cover' }}
+          style={{
+            width: '100%',
+            height: '300px',
+            objectFit: 'cover',
+          }}
           src={image}
         />
       </Link>

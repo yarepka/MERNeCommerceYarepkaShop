@@ -23,6 +23,12 @@
   border-bottom: 1px solid #f4f4f4;
 }
 
+.product .product-image {
+  width: 350px;
+  align-items: center;
+  max-width: 100%;
+}
+
 @media (max-width: 900px) {
   .product .product-info li {
     padding: 0.5rem 0;
