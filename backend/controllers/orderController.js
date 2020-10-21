@@ -129,6 +129,11 @@ const updateOrderToDelivered = asyncHandler(async (req, res) => {
     throw new Error('Order was not found');
   }
 
+  if (!order.isPaid) {
+    res.status(400);
+    throw new Error('Order must be paid first in order to be delivered');
+  }
+
   order.isDelivered = true;
   order.deliveredAt = Date.now();
 
