@@ -20,6 +20,7 @@ import UserEditPage from './pages/AdminPages/UserEditPage/UserEditPage';
 import ProductListPage from './pages/AdminPages/ProductListPage/ProductListPage';
 import ProductEditPage from './pages/AdminPages/ProductEditPage/ProductEditPage';
 import OrderListPage from './pages/AdminPages/OrderListPage/OrderListPage';
+import NotFoundPage from './pages/NotFoundPage/NotFoundPage';
 
 const App = () => {
   return (
@@ -27,36 +28,41 @@ const App = () => {
       <Header />
       <main className='py-1'>
         <Container>
-          <Route path='/login' component={LoginPage} exact />
-          <Route path='/register' component={RegisterPage} exact />
-          <Route path='/profile' component={ProfilePage} exact />
-          <Route path='/shipping' component={ShippingPage} exact />
-          <Route path='/payment' component={PaymentPage} exact />
-          <Route path='/placeorder' component={PlaceOrderPage} exact />
-          <Route path='/admin/panel' component={AdminPanelPage} />
-          <Route path='/admin/userlist' component={UserListPage} exact />
-          <Route path='/admin/productlist' component={ProductListPage} exact />
-          <Route path='/admin/orderlist' component={OrderListPage} exact />
-          <Route path='/admin/user/:id/edit' component={UserEditPage} exact />
-          <Route
-            path='/admin/product/:id/edit'
-            component={ProductEditPage}
-            exact
-          />
-          <Route path='/order/:id' component={OrderPage} exact />
-          <Route path='/product/:id' component={ProductPage} exact />
-          <Route path='/cart/:id?' component={CartPage} exact />
-
           <Switch>
+            <Route path='/login' component={LoginPage} exact />
+            <Route path='/register' component={RegisterPage} exact />
+            <Route path='/profile' component={ProfilePage} exact />
+            <Route path='/shipping' component={ShippingPage} exact />
+            <Route path='/payment' component={PaymentPage} exact />
+            <Route path='/placeorder' component={PlaceOrderPage} exact />
+            <Route path='/admin/panel' component={AdminPanelPage} />
+            <Route path='/admin/userlist' component={UserListPage} exact />
+            <Route
+              path='/admin/productlist'
+              component={ProductListPage}
+              exact
+            />
+            <Route path='/admin/orderlist' component={OrderListPage} exact />
+            <Route path='/admin/user/:id/edit' component={UserEditPage} exact />
+            <Route
+              path='/admin/product/:id/edit'
+              component={ProductEditPage}
+              exact
+            />
+            <Route path='/order/:id' component={OrderPage} exact />
+            <Route path='/product/:id' component={ProductPage} exact />
+            <Route path='/cart/:id?' component={CartPage} exact />
+
             <Route
               path='/search/:keyword'
               component={(props) => (
                 <HomePage {...props} key={window.location.pathname} />
               )}
             />
-          </Switch>
 
-          <Route path='/' component={HomePage} exact />
+            <Route path='/' component={HomePage} exact />
+            <Route path='/' component={NotFoundPage} />
+          </Switch>
         </Container>
       </main>
       <Footer />
