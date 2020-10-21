@@ -11,20 +11,22 @@ import {
   ORDER_PAY_SUCCESS,
   ORDER_PAY_FAIL,
   ORDER_PAY_RESET,
-  ORDER_LIST_MYORDERS_REQUEST,
-  ORDER_LIST_MYORDERS_SUCCESS,
-  ORDER_LIST_MYORDERS_FAIL,
-  ORDER_LIST_MYORDERS_RESET,
+  // ORDER_LIST_MYORDERS_REQUEST,
+  // ORDER_LIST_MYORDERS_SUCCESS,
+  // ORDER_LIST_MYORDERS_FAIL,
+  // ORDER_LIST_MYORDERS_RESET,
+  ORDER_LIST_LOAD_PAGE_REQUEST,
   ORDER_LIST_LOAD_PAGE_SUCCESS,
   ORDER_LIST_LOAD_PAGE_FAIL,
   ORDER_LIST_LOAD_PAGE_RESET,
+  ORDER_LOAD_MYORDERS_PAGE_REQUEST,
   ORDER_LOAD_MYORDERS_PAGE_SUCCESS,
   ORDER_LOAD_MYORDERS_PAGE_FAIL,
   ORDER_LOAD_MYORDERS_PAGE_RESET,
-  ORDER_LIST_REQUEST,
-  ORDER_LIST_SUCCESS,
-  ORDER_LIST_FAIL,
-  ORDER_LIST_RESET,
+  // ORDER_LIST_REQUEST,
+  // ORDER_LIST_SUCCESS,
+  // ORDER_LIST_FAIL,
+  // ORDER_LIST_RESET,
   ORDER_DELIVER_REQUEST,
   ORDER_DELIVER_SUCCESS,
   ORDER_DELIVER_FAIL,
@@ -128,48 +130,91 @@ export const orderDeliverReducer = (state = {}, action) => {
   }
 };
 
-export const orderListMyOrdersReducer = (
-  state = { orders: [], loading: true },
-  action
-) => {
-  switch (action.type) {
-    case ORDER_LIST_MYORDERS_REQUEST:
-      return {
-        ...state,
-        loading: true,
-      };
-    case ORDER_LIST_MYORDERS_SUCCESS:
-      return {
-        loading: false,
-        orders: action.payload,
-      };
-    case ORDER_LIST_MYORDERS_FAIL:
-      return {
-        ...state,
-        loading: false,
-        error: action.payload,
-      };
-    case ORDER_LIST_MYORDERS_RESET:
-      return {
-        orders: [],
-        loading: true,
-      };
-    default:
-      return state;
-  }
-};
+// export const orderListMyOrdersReducer = (
+//   state = { orders: [], loading: true },
+//   action
+// ) => {
+//   switch (action.type) {
+//     case ORDER_LIST_MYORDERS_REQUEST:
+//       return {
+//         ...state,
+//         loading: true,
+//       };
+//     case ORDER_LIST_MYORDERS_SUCCESS:
+//       return {
+//         loading: false,
+//         orders: action.payload,
+//       };
+//     case ORDER_LIST_MYORDERS_FAIL:
+//       return {
+//         ...state,
+//         loading: false,
+//         error: action.payload,
+//       };
+//     case ORDER_LIST_MYORDERS_RESET:
+//       return {
+//         orders: [],
+//         loading: true,
+//       };
+//     default:
+//       return state;
+//   }
+// };
+
+// export const orderListReducer = (
+//   state = { orders: [], loading: true },
+//   action
+// ) => {
+//   switch (action.type) {
+//     case ORDER_LIST_REQUEST:
+//       return {
+//         ...state,
+//         loading: true,
+//       };
+//     case ORDER_LIST_SUCCESS:
+//       return {
+//         loading: false,
+//         orders: action.payload,
+//       };
+//     case ORDER_LIST_FAIL:
+//       return {
+//         loading: false,
+//         error: action.payload,
+//       };
+//     case ORDER_LIST_RESET:
+//       return {
+//         orders: [],
+//         loading: true,
+//       };
+//     default:
+//       return state;
+//   }
+// };
 
 export const orderLoadMyOrdersPageReducer = (
-  state = { hasMore: true, loading: true, orders: [], page: 0, date: null },
+  state = {
+    hasMore: true,
+    loading: true,
+    loadingPage: false,
+    orders: [],
+    page: 0,
+    date: null,
+  },
   action
 ) => {
   switch (action.type) {
+    case ORDER_LOAD_MYORDERS_PAGE_REQUEST:
+      return {
+        ...state,
+        loadingPage: true,
+      };
     case ORDER_LOAD_MYORDERS_PAGE_SUCCESS:
       return {
         ...state,
         orders: state.orders.concat(action.payload.orders),
         hasMore: action.payload.orders.length > 0 ? true : false,
         loading: false,
+        loadingPage: false,
         date: action.payload.date,
         page: action.payload.page,
       };
@@ -177,12 +222,14 @@ export const orderLoadMyOrdersPageReducer = (
       return {
         ...state,
         loading: false,
+        loadingPage: false,
         error: action.payload,
       };
     case ORDER_LOAD_MYORDERS_PAGE_RESET:
       return {
         hasMore: true,
         loading: true,
+        loadingPage: false,
         orders: [],
         page: 0,
         date: null,
@@ -192,47 +239,30 @@ export const orderLoadMyOrdersPageReducer = (
   }
 };
 
-export const orderListReducer = (
-  state = { orders: [], loading: true },
+export const orderListLoadPageReducer = (
+  state = {
+    hasMore: true,
+    loading: true,
+    loadingPage: false,
+    orders: [],
+    page: 0,
+    date: null,
+  },
   action
 ) => {
   switch (action.type) {
-    case ORDER_LIST_REQUEST:
+    case ORDER_LIST_LOAD_PAGE_REQUEST:
       return {
         ...state,
-        loading: true,
+        loadingPage: true,
       };
-    case ORDER_LIST_SUCCESS:
-      return {
-        loading: false,
-        orders: action.payload,
-      };
-    case ORDER_LIST_FAIL:
-      return {
-        loading: false,
-        error: action.payload,
-      };
-    case ORDER_LIST_RESET:
-      return {
-        orders: [],
-        loading: true,
-      };
-    default:
-      return state;
-  }
-};
-
-export const orderListLoadPageReducer = (
-  state = { hasMore: true, loading: true, orders: [], page: 0, date: null },
-  action
-) => {
-  switch (action.type) {
     case ORDER_LIST_LOAD_PAGE_SUCCESS:
       return {
         ...state,
         orders: state.orders.concat(action.payload.orders),
         hasMore: action.payload.orders.length > 0 ? true : false,
         loading: false,
+        loadingPage: false,
         date: action.payload.date,
         page: action.payload.page,
       };
@@ -240,12 +270,14 @@ export const orderListLoadPageReducer = (
       return {
         ...state,
         loading: false,
+        loadingPage: false,
         error: action.payload,
       };
     case ORDER_LIST_LOAD_PAGE_RESET:
       return {
         hasMore: true,
         loading: true,
+        loadingPage: false,
         orders: [],
         page: 0,
         date: null,

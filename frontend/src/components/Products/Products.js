@@ -16,13 +16,10 @@ const Products = ({ match }) => {
   const dispatch = useDispatch();
 
   const productLoadPage = useSelector((state) => state.productLoadPage);
-  const { loading, error, products, hasMore } = productLoadPage;
-
-  console.log(`[Products.js]: rendering`);
+  const { loading, loadingPage, error, products, hasMore } = productLoadPage;
 
   useEffect(() => {
     return () => {
-      console.log(`[Products.js]: ${PRODUCT_LOAD_PAGE_RESET} action dispatch`);
       dispatch({ type: PRODUCT_LOAD_PAGE_RESET });
     };
   }, []);
@@ -32,15 +29,15 @@ const Products = ({ match }) => {
   }, []);
 
   const loadProducts = () => {
-    console.log(`[Products.js]: loadProducts\npage=${productLoadPage.page}`);
-    dispatch(loadProductsPage(keyword));
+    if (!loadingPage) {
+      dispatch(loadProductsPage(keyword));
+    }
   };
 
   const productItems = products.map((product) => (
     <ProductItem key={product.id} product={product} />
   ));
 
-  console.log(`[Products.js]: before return`);
   return loading ? (
     <Spinner />
   ) : error ? (

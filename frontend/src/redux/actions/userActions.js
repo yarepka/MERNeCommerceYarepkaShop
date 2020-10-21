@@ -142,6 +142,8 @@ export const getUserDetails = (id) => {
         userLogin: { userInfo },
       } = getState();
 
+      console.log('userInfo: ', userInfo);
+
       const config = {
         headers: {
           'Content-Type': 'application/json',
@@ -156,6 +158,7 @@ export const getUserDetails = (id) => {
 
       dispatch({ type: USER_DETAILS_SUCCESS, payload: data });
     } catch (err) {
+      console.log('err: ', err);
       dispatch({
         type: USER_DETAILS_FAIL,
         // remember we putted custom error handler

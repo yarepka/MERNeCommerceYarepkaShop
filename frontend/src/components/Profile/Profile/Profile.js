@@ -30,6 +30,7 @@ const Profile = ({ history }) => {
     orders,
     hasMore,
     loading: loadingMyOrderPage,
+    loadingPage,
     error: errorMyOrdersPage,
   } = orderLoadMyOrdersPage;
 
@@ -44,7 +45,9 @@ const Profile = ({ history }) => {
   }, []);
 
   const loadMyOrders = () => {
-    dispatch(loadMyOrdersPage());
+    if (!loadingPage) {
+      dispatch(loadMyOrdersPage());
+    }
   };
 
   return (

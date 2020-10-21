@@ -23,6 +23,10 @@ const UserEdit = ({ match, history }) => {
 
   const dispatch = useDispatch();
 
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+  if (!userInfo || !userInfo.isAdmin) history.push('/');
+
   const userDetails = useSelector((state) => state.userDetails);
   const { loading, error, user } = userDetails;
 
@@ -33,20 +37,23 @@ const UserEdit = ({ match, history }) => {
     if (success) {
       history.push('/admin/userlist');
       dispatch({ type: USER_UPDATE_RESET });
+      dispatch({ type: USER_DETAILS_RESET });
     }
-    if (!user.name || user.id !== userId) {
+  }, [success]);
+
+  useEffect(() => {
+    if (userInfo && (!user.name || user.id !== userId)) {
       dispatch(getUserDetails(userId));
     } else {
       setName(user.name);
       setEmail(user.email);
       setIsAdmin(user.isAdmin);
     }
-  }, [user, success, userId]);
+  }, [user, userId]);
 
   const submitHandler = (e) => {
     e.preventDefault();
     dispatch(updateUser({ ...user, name, email, isAdmin }));
-    dispatch({ type: USER_DETAILS_RESET });
   };
 
   return (
@@ -59,9 +66,8 @@ const UserEdit = ({ match, history }) => {
       </Link>
       <FormContainer type='centered'>
         <h1 className='text-uppercase text-centered-on-mobile'>Edit User</h1>
-        {loadingUpdate && <Spinner />}
         {errorUpdate && <Message type='danger'>{errorUpdate}</Message>}
-        {loading ? (
+        {loading || loadingUpdate ? (
           <Spinner />
         ) : error ? (
           <Message type='danger'>{error}</Message>

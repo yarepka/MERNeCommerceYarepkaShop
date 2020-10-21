@@ -9,14 +9,16 @@ import {
   ORDER_PAY_REQUEST,
   ORDER_PAY_SUCCESS,
   ORDER_PAY_FAIL,
-  ORDER_LIST_MYORDERS_REQUEST,
-  ORDER_LIST_MYORDERS_SUCCESS,
-  ORDER_LIST_MYORDERS_FAIL,
+  // ORDER_LIST_MYORDERS_REQUEST,
+  // ORDER_LIST_MYORDERS_SUCCESS,
+  // ORDER_LIST_MYORDERS_FAIL,
+  ORDER_LOAD_MYORDERS_PAGE_REQUEST,
   ORDER_LOAD_MYORDERS_PAGE_SUCCESS,
   ORDER_LOAD_MYORDERS_PAGE_FAIL,
-  ORDER_LIST_REQUEST,
-  ORDER_LIST_SUCCESS,
-  ORDER_LIST_FAIL,
+  // ORDER_LIST_REQUEST,
+  // ORDER_LIST_SUCCESS,
+  // ORDER_LIST_FAIL,
+  ORDER_LIST_LOAD_PAGE_REQUEST,
   ORDER_LIST_LOAD_PAGE_SUCCESS,
   ORDER_LIST_LOAD_PAGE_FAIL,
   ORDER_DELIVER_REQUEST,
@@ -176,43 +178,45 @@ export const deliverOrder = (orderId) => {
   };
 };
 
-export const listMyOrders = () => {
-  return async (dispatch, getState) => {
-    try {
-      dispatch({
-        type: ORDER_LIST_MYORDERS_REQUEST,
-      });
+// export const listMyOrders = () => {
+//   return async (dispatch, getState) => {
+//     try {
+//       dispatch({
+//         type: ORDER_LIST_MYORDERS_REQUEST,
+//       });
 
-      const {
-        userLogin: { userInfo },
-      } = getState();
+//       const {
+//         userLogin: { userInfo },
+//       } = getState();
 
-      const config = {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${userInfo.token}`,
-        },
-      };
+//       const config = {
+//         headers: {
+//           'Content-Type': 'application/json',
+//           Authorization: `Bearer ${userInfo.token}`,
+//         },
+//       };
 
-      const { data } = await axios.get(`/api/orders/myorders`, config);
+//       const { data } = await axios.get(`/api/orders/myorders`, config);
 
-      dispatch({ type: ORDER_LIST_MYORDERS_SUCCESS, payload: data });
-    } catch (err) {
-      dispatch({
-        type: ORDER_LIST_MYORDERS_FAIL,
-        // remember we putted custom error handler
-        payload:
-          err.response && err.response.data.message
-            ? err.response.data.message
-            : err.message,
-      });
-    }
-  };
-};
+//       dispatch({ type: ORDER_LIST_MYORDERS_SUCCESS, payload: data });
+//     } catch (err) {
+//       dispatch({
+//         type: ORDER_LIST_MYORDERS_FAIL,
+//         // remember we putted custom error handler
+//         payload:
+//           err.response && err.response.data.message
+//             ? err.response.data.message
+//             : err.message,
+//       });
+//     }
+//   };
+// };
 
 export const loadMyOrdersPage = () => {
   return async (dispatch, getState) => {
     try {
+      dispatch({ type: ORDER_LOAD_MYORDERS_PAGE_REQUEST });
+
       const {
         orderLoadMyOrdersPage: { date, page },
       } = getState();
@@ -257,43 +261,45 @@ export const loadMyOrdersPage = () => {
   };
 };
 
-export const listOrders = () => {
-  return async (dispatch, getState) => {
-    try {
-      dispatch({
-        type: ORDER_LIST_REQUEST,
-      });
+// export const listOrders = () => {
+//   return async (dispatch, getState) => {
+//     try {
+//       dispatch({
+//         type: ORDER_LIST_REQUEST,
+//       });
 
-      const {
-        userLogin: { userInfo },
-      } = getState();
+//       const {
+//         userLogin: { userInfo },
+//       } = getState();
 
-      const config = {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${userInfo.token}`,
-        },
-      };
+//       const config = {
+//         headers: {
+//           'Content-Type': 'application/json',
+//           Authorization: `Bearer ${userInfo.token}`,
+//         },
+//       };
 
-      const { data } = await axios.get(`/api/orders`, config);
+//       const { data } = await axios.get(`/api/orders`, config);
 
-      dispatch({ type: ORDER_LIST_SUCCESS, payload: data });
-    } catch (err) {
-      dispatch({
-        type: ORDER_LIST_FAIL,
-        // remember we putted custom error handler
-        payload:
-          err.response && err.response.data.message
-            ? err.response.data.message
-            : err.message,
-      });
-    }
-  };
-};
+//       dispatch({ type: ORDER_LIST_SUCCESS, payload: data });
+//     } catch (err) {
+//       dispatch({
+//         type: ORDER_LIST_FAIL,
+//         // remember we putted custom error handler
+//         payload:
+//           err.response && err.response.data.message
+//             ? err.response.data.message
+//             : err.message,
+//       });
+//     }
+//   };
+// };
 
 export const loadListOrdersPage = () => {
   return async (dispatch, getState) => {
     try {
+      dispatch({ type: ORDER_LIST_LOAD_PAGE_REQUEST });
+
       const {
         orderListLoadPage: { date, page },
       } = getState();

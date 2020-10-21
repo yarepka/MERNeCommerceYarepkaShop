@@ -20,7 +20,7 @@ const UserList = ({ history }) => {
   const dispatch = useDispatch();
 
   const userListLoadPage = useSelector((state) => state.userListLoadPage);
-  const { loading, users, error, hasMore } = userListLoadPage;
+  const { loading, loadingPage, users, error, hasMore } = userListLoadPage;
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -33,12 +33,14 @@ const UserList = ({ history }) => {
   useEffect(() => {
     if (successDelete) {
       dispatch({ type: USER_LIST_LOAD_PAGE_RESET });
+      dispatch({ type: USER_DELETE_RESET });
+      loadListUsers();
     }
   }, [successDelete]);
 
   useEffect(() => {
     loadListUsers();
-  }, [userInfo, successDelete]);
+  }, [userInfo]);
 
   useEffect(() => {
     return () => {
@@ -48,7 +50,9 @@ const UserList = ({ history }) => {
   }, []);
 
   const loadListUsers = () => {
-    dispatch(loadListUsersPage());
+    if (!loadingPage) {
+      dispatch(loadListUsersPage());
+    }
   };
 
   const deleteHandler = (userId) => {

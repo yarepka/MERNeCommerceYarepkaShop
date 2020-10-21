@@ -10,6 +10,10 @@ import {
   getUserDetails,
   updateUserProfile,
 } from '../../../redux/actions/userActions';
+import {
+  USER_UPDATE_PROFILE_RESET,
+  USER_DETAILS_RESET,
+} from '../../../redux/actions/types';
 
 import './ProfileForm.css';
 
@@ -27,6 +31,8 @@ const ProfileForm = ({ history, setMessage }) => {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
+  console.log('ProfileForm userInfo: ', userInfo);
+
   const userUpdateProfile = useSelector((state) => state.userUpdateProfile);
   const { success } = userUpdateProfile;
 
@@ -43,11 +49,25 @@ const ProfileForm = ({ history, setMessage }) => {
     }
   }, [dispatch, history, user]);
 
+  useEffect(() => {
+    if (success) {
+      dispatch({ type: USER_DETAILS_RESET });
+      dispatch({ type: USER_UPDATE_PROFILE_RESET });
+    }
+  }, [success]);
+
+  useEffect(() => {
+    return () => {
+      dispatch({ type: USER_DETAILS_RESET });
+    };
+  }, []);
+
   const submitHandler = (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {
       setMessage('Passwords do not match');
     } else {
+      setMessage(null);
       dispatch(updateUserProfile({ name, email, password }));
     }
   };

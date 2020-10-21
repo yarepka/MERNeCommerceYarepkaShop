@@ -22,7 +22,13 @@ const ProductList = ({ history }) => {
   const dispatch = useDispatch();
 
   const productListLoadPage = useSelector((state) => state.productListLoadPage);
-  const { loading, error, products, hasMore } = productListLoadPage;
+  const {
+    loading,
+    loadingPage,
+    error,
+    products,
+    hasMore,
+  } = productListLoadPage;
 
   const productDelete = useSelector((state) => state.productDelete);
   const { error: errorDelete, success: successDelete } = productDelete;
@@ -38,6 +44,7 @@ const ProductList = ({ history }) => {
   } = productCreate;
 
   if (!userInfo || !userInfo.isAdmin) history.push('/');
+  
   if (successCreate) history.push(`/admin/product/${createdProduct.id}/edit`);
 
   useEffect(() => {
@@ -68,7 +75,9 @@ const ProductList = ({ history }) => {
   };
 
   const loadListProducts = () => {
-    dispatch(loadListProductsPage());
+    if (!loadingPage) {
+      dispatch(loadListProductsPage());
+    }
   };
 
   return (
@@ -125,7 +134,7 @@ const ProductList = ({ history }) => {
                   <li className='flex flex-justify-content-center  flex-align-center product-data-list-item grid-off'>
                     <img
                       src={product.image}
-                      style={{ width: '500px', maxWidth: '100%' }}
+                      style={{ width: '150px', maxWidth: '100%' }}
                     />
                   </li>
 

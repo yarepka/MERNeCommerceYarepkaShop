@@ -19,7 +19,7 @@ const OrderList = ({ history }) => {
   if (!userInfo || !userInfo.isAdmin) history.push('/');
 
   const orderListLoadPage = useSelector((state) => state.orderListLoadPage);
-  const { loading, orders, error, hasMore } = orderListLoadPage;
+  const { loading, loadingPage, orders, error, hasMore } = orderListLoadPage;
 
   useEffect(() => {
     loadListOrders();
@@ -32,7 +32,9 @@ const OrderList = ({ history }) => {
   }, []);
 
   const loadListOrders = () => {
-    dispatch(loadListOrdersPage());
+    if (!loadingPage) {
+      dispatch(loadListOrdersPage());
+    }
   };
 
   return (

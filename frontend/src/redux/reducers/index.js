@@ -1,7 +1,6 @@
 import { combineReducers } from 'redux';
 
 import {
-  productListReducer,
   productDetailsReducer,
   productDeleteReducer,
   productCreateReducer,
@@ -16,7 +15,6 @@ import {
   userRegisterReducer,
   userDetailsReducer,
   userUpdateProfileReducer,
-  userListReducer,
   userListLoadPageReducer,
   userDeleteReducer,
   userUpdateReducer,
@@ -25,8 +23,6 @@ import {
   orderCreateReducer,
   orderDetailsReducer,
   orderPayReducer,
-  orderListMyOrdersReducer,
-  orderListReducer,
   orderDeliverReducer,
   orderListLoadPageReducer,
   orderLoadMyOrdersPageReducer,
@@ -35,7 +31,6 @@ import {
 export default combineReducers({
   productLoadPage: productLoadPageReducer,
   productListLoadPage: productListLoadPageReducer,
-  productList: productListReducer,
   productDetails: productDetailsReducer,
   productDelete: productDeleteReducer,
   productCreate: productCreateReducer,
@@ -48,14 +43,11 @@ export default combineReducers({
   userUpdateProfile: userUpdateProfileReducer,
   userDelete: userDeleteReducer,
   userUpdate: userUpdateReducer,
-  userList: userListReducer,
   userListLoadPage: userListLoadPageReducer,
   orderCreate: orderCreateReducer,
   orderDetails: orderDetailsReducer,
   orderPay: orderPayReducer,
   orderDeliver: orderDeliverReducer,
-  orderListMyOrders: orderListMyOrdersReducer,
-  orderList: orderListReducer,
   orderListLoadPage: orderListLoadPageReducer,
   orderLoadMyOrdersPage: orderLoadMyOrdersPageReducer,
 });

@@ -1,14 +1,16 @@
 import {
+  PRODUCT_LOAD_PAGE_REQUEST,
   PRODUCT_LOAD_PAGE_SUCCESS,
   PRODUCT_LOAD_PAGE_FAIL,
   PRODUCT_LOAD_PAGE_RESET,
+  PRODUCT_LIST_LOAD_PAGE_REQUEST,
   PRODUCT_LIST_LOAD_PAGE_SUCCESS,
   PRODUCT_LIST_LOAD_PAGE_FAIL,
   PRODUCT_LIST_LOAD_PAGE_RESET,
-  PRODUCT_LIST_REQUEST,
-  PRODUCT_LIST_SUCCESS,
-  PRODUCT_LIST_FAIL,
-  PRODUCT_LIST_RESET,
+  // PRODUCT_LIST_REQUEST,
+  // PRODUCT_LIST_SUCCESS,
+  // PRODUCT_LIST_FAIL,
+  // PRODUCT_LIST_RESET,
   PRODUCT_DETAILS_REQUEST,
   PRODUCT_DETAILS_SUCCESS,
   PRODUCT_DETAILS_FAIL,
@@ -32,16 +34,29 @@ import {
 } from '../actions/types';
 
 export const productLoadPageReducer = (
-  state = { hasMore: true, loading: true, products: [], page: 0, date: null },
+  state = {
+    hasMore: true,
+    loading: true,
+    loadingPage: false,
+    products: [],
+    page: 0,
+    date: null,
+  },
   action
 ) => {
   switch (action.type) {
+    case PRODUCT_LOAD_PAGE_REQUEST:
+      return {
+        ...state,
+        loadingPage: true,
+      };
     case PRODUCT_LOAD_PAGE_SUCCESS:
       return {
         ...state,
         products: state.products.concat(action.payload.products),
         hasMore: action.payload.products.length > 0 ? true : false,
         loading: false,
+        loadingPage: false,
         date: action.payload.date,
         page: action.payload.page,
       };
@@ -49,12 +64,14 @@ export const productLoadPageReducer = (
       return {
         ...state,
         loading: false,
+        loadingPage: false,
         error: action.payload,
       };
     case PRODUCT_LOAD_PAGE_RESET:
       return {
         hasMore: true,
         loading: true,
+        loadingPage: false,
         products: [],
         page: 0,
         date: null,
@@ -65,16 +82,29 @@ export const productLoadPageReducer = (
 };
 
 export const productListLoadPageReducer = (
-  state = { hasMore: true, loading: true, products: [], page: 0, date: null },
+  state = {
+    hasMore: true,
+    loading: true,
+    loadingPage: false,
+    products: [],
+    page: 0,
+    date: null,
+  },
   action
 ) => {
   switch (action.type) {
+    case PRODUCT_LIST_LOAD_PAGE_REQUEST:
+      return {
+        ...state,
+        loadingPage: true,
+      };
     case PRODUCT_LIST_LOAD_PAGE_SUCCESS:
       return {
         ...state,
         products: state.products.concat(action.payload.products),
         hasMore: action.payload.products.length > 0 ? true : false,
         loading: false,
+        loadingPage: false,
         date: action.payload.date,
         page: action.payload.page,
       };
@@ -82,12 +112,14 @@ export const productListLoadPageReducer = (
       return {
         ...state,
         loading: false,
+        loadingPage: false,
         error: action.payload,
       };
     case PRODUCT_LIST_LOAD_PAGE_RESET:
       return {
         hasMore: true,
         loading: true,
+        loadingPage: false,
         products: [],
         page: 0,
         date: null,
@@ -97,20 +129,20 @@ export const productListLoadPageReducer = (
   }
 };
 
-export const productListReducer = (state = { products: [] }, action) => {
-  switch (action.type) {
-    case PRODUCT_LIST_REQUEST:
-      return { loading: true, products: [] };
-    case PRODUCT_LIST_SUCCESS:
-      return { loading: false, products: action.payload };
-    case PRODUCT_LIST_FAIL:
-      return { loading: false, error: action.payload };
-    case PRODUCT_LIST_RESET:
-      return { ...state, loading: true };
-    default:
-      return state;
-  }
-};
+// export const productListReducer = (state = { products: [] }, action) => {
+//   switch (action.type) {
+//     case PRODUCT_LIST_REQUEST:
+//       return { loading: true, products: [] };
+//     case PRODUCT_LIST_SUCCESS:
+//       return { loading: false, products: action.payload };
+//     case PRODUCT_LIST_FAIL:
+//       return { loading: false, error: action.payload };
+//     case PRODUCT_LIST_RESET:
+//       return { ...state, loading: true };
+//     default:
+//       return state;
+//   }
+// };
 
 export const productDetailsReducer = (
   state = { product: { reviews: [] }, loading: true },
