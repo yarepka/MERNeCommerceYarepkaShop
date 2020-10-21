@@ -30,7 +30,6 @@ const importData = async () => {
 
     await Product.insertMany(sampleProducts);
 
-    console.log('Data Imported'.green.inverse);
     process.exit();
   } catch (error) {
     console.error(`${error}`.red.inverse);
@@ -45,7 +44,6 @@ const destroyData = async () => {
     await Product.deleteMany();
     await User.deleteMany();
 
-    console.log('Data Destroyed'.red.inverse);
     process.exit();
   } catch (error) {
     console.error(`${error}`.red.inverse);
@@ -55,7 +53,6 @@ const destroyData = async () => {
 
 // node backend/seeder -d
 // process.argv[2] returns '-d'
-console.log(process.argv[2]);
 if (process.argv[2] === '-d') {
   destroyData();
 } else {

@@ -37,9 +37,6 @@ const Order = ({ match, history }) => {
   if (!userInfo) history.push('/login');
   if (userInfo && !userInfo.isAdmin) {
     if (order && order.user.id !== userInfo.id) {
-      console.log('order: ', order);
-      console.log('order.user: ', order.user);
-      console.log('userInfo.id: ', userInfo.id);
       history.push('/');
     }
   }
@@ -51,7 +48,6 @@ const Order = ({ match, history }) => {
   const { success: successDeliver } = orderDeliver;
 
   const successPaymentHandler = (paymentResult) => {
-    console.log(paymentResult);
     dispatch(payOrder(orderId, paymentResult));
   };
 

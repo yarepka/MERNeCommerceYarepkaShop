@@ -24,9 +24,6 @@ const checkValidity = asyncHandler(async (req, res) => {
     }
   }
 
-  console.log('msg: ', msg);
-  console.log('validatedCartItems: ', validatedCartItems);
-
   if (msg) {
     return res.status(200).send({
       msg: msg,

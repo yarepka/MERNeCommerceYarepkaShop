@@ -3,16 +3,11 @@ import React from 'react';
 import './FileInput.css';
 
 const FileInput = (props) => {
-  console.log('[FileInput]: rendering');
-
   let imageLabel = (
     <label htmlFor='file-upload' className='file-upload-label'>
       <span>Profile Image</span>
     </label>
   );
-
-  console.log(props.image);
-  console.log(props.image instanceof File);
 
   if (props.image !== '') {
     let styling;

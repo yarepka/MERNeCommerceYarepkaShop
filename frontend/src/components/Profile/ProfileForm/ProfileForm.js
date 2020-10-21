@@ -31,8 +31,6 @@ const ProfileForm = ({ history, setMessage }) => {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
-  console.log('ProfileForm userInfo: ', userInfo);
-
   const userUpdateProfile = useSelector((state) => state.userUpdateProfile);
   const { success } = userUpdateProfile;
 

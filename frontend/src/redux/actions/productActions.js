@@ -43,10 +43,6 @@ export const loadProductsPage = (keyword = '') => {
         `/api/products/loadPage?page=${nextPage}&date=${currentDate}&keyword=${keyword}`
       );
 
-      console.log(
-        `[loadProductsPage]: in action.\nproducts=${data}\nnextPage=${nextPage}\ncurrentDate=${currentDate}`
-      );
-
       dispatch({
         type: PRODUCT_LOAD_PAGE_SUCCESS,
         payload: {
@@ -84,10 +80,6 @@ export const loadListProductsPage = () => {
         `/api/products/loadPage?page=${nextPage}&date=${currentDate}`
       );
 
-      console.log(
-        `[loadProductsPage]: in action.\nproducts=${data}\nnextPage=${nextPage}\ncurrentDate=${currentDate}`
-      );
-
       dispatch({
         type: PRODUCT_LIST_LOAD_PAGE_SUCCESS,
         payload: {
@@ -108,32 +100,6 @@ export const loadListProductsPage = () => {
     }
   };
 };
-
-// export const listProducts = (keyword = '') => {
-//   return async (dispatch) => {
-//     try {
-//       dispatch({
-//         type: PRODUCT_LIST_REQUEST,
-//       });
-
-//       const { data } = await axios.get(`/api/products?keyword=${keyword}`);
-
-//       dispatch({
-//         type: PRODUCT_LIST_SUCCESS,
-//         payload: data,
-//       });
-//     } catch (err) {
-//       dispatch({
-//         type: PRODUCT_LIST_FAIL,
-//         // remember we putted custom error handler
-//         payload:
-//           err.response && err.response.data.message
-//             ? err.response.data.message
-//             : err.message,
-//       });
-//     }
-//   };
-// };
 
 export const listProductDetails = (productId) => {
   return async (dispatch) => {
@@ -259,7 +225,6 @@ export const updateProduct = (product) => {
           configUpload
         );
 
-        console.log('filePath: ', data);
         if (data) {
           product.image = data;
         }

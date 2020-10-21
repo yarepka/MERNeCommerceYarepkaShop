@@ -88,8 +88,6 @@ export const checkValidity = (cartItems) => {
         },
       };
 
-      console.log(cartItems);
-
       const { data } = await axios.post(
         `/api/cart/checkValidity`,
         cartItems,
@@ -97,7 +95,6 @@ export const checkValidity = (cartItems) => {
       );
 
       if (data.msg) {
-        console.log(data);
         dispatch({
           type: CART_VALIDITY_NEGATIVE,
           payload: {

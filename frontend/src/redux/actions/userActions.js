@@ -14,9 +14,6 @@ import {
   USER_UPDATE_PROFILE_SUCCESS,
   USER_UPDATE_PROFILE_FAIL,
   ORDER_LIST_MYORDERS_RESET,
-  USER_LIST_REQUEST,
-  USER_LIST_SUCCESS,
-  USER_LIST_FAIL,
   USER_LIST_RESET,
   USER_LIST_LOAD_PAGE_SUCCESS,
   USER_LIST_LOAD_PAGE_FAIL,
@@ -142,8 +139,6 @@ export const getUserDetails = (id) => {
         userLogin: { userInfo },
       } = getState();
 
-      console.log('userInfo: ', userInfo);
-
       const config = {
         headers: {
           'Content-Type': 'application/json',
@@ -158,7 +153,6 @@ export const getUserDetails = (id) => {
 
       dispatch({ type: USER_DETAILS_SUCCESS, payload: data });
     } catch (err) {
-      console.log('err: ', err);
       dispatch({
         type: USER_DETAILS_FAIL,
         // remember we putted custom error handler
@@ -198,40 +192,6 @@ export const updateUserProfile = (user) => {
     } catch (err) {
       dispatch({
         type: USER_UPDATE_PROFILE_FAIL,
-        // remember we putted custom error handler
-        payload:
-          err.response && err.response.data.message
-            ? err.response.data.message
-            : err.message,
-      });
-    }
-  };
-};
-
-export const listUsers = () => {
-  return async (dispatch, getState) => {
-    try {
-      dispatch({
-        type: USER_LIST_REQUEST,
-      });
-
-      const {
-        userLogin: { userInfo },
-      } = getState();
-
-      const config = {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${userInfo.token}`,
-        },
-      };
-
-      const { data } = await axios.get(`/api/users`, config);
-
-      dispatch({ type: USER_LIST_SUCCESS, payload: data });
-    } catch (err) {
-      dispatch({
-        type: USER_LIST_FAIL,
         // remember we putted custom error handler
         payload:
           err.response && err.response.data.message
