@@ -37,8 +37,7 @@ app.get('/api/config/paypal', (req, res) =>
 
 // __diranem not availabe if we use ES modules, only if we use require syntax
 const __dirname = path.resolve();
-// making 'uploads' directory static, so it'll be
-// accessible from browser
+
 app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
 
 if (process.env.NODE_ENV === 'production') {
