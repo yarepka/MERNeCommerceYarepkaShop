@@ -17,11 +17,16 @@ const getProductsPage = asyncHandler(async (req, res) => {
   const keyword = req.query.keyword
     ? {
         name: {
+          $ne: process.env.SAMPLE_NAME,
           $regex: req.query.keyword,
           $options: 'i', // case insensetive
         },
       }
-    : {};
+    : {
+        name: {
+          $ne: process.env.SAMPLE_NAME,
+        },
+      };
 
   if (!page && !dateInMilliseconds) {
     res.status(400);
@@ -94,15 +99,15 @@ const deleteProduct = asyncHandler(async (req, res) => {
 // @access  Private/Admin
 const createProduct = asyncHandler(async (req, res) => {
   const product = new Product({
-    name: 'Sample name',
+    name: process.env.SAMPLE_NAME,
     price: 0,
     user: req.user._id,
     image: '/images/sample.jpg',
-    brand: 'Sample brand',
-    category: 'Sample category',
+    brand: process.env.SAMPLE_NAME,
+    category: process.env.SAMPLE_NAME,
     countInStock: 0,
     numReviews: 0,
-    description: 'Sample description',
+    description: process.env.SAMPLE_NAME,
   });
 
   const createdProduct = await product.save();
@@ -128,6 +133,31 @@ const updateProduct = asyncHandler(async (req, res) => {
   if (!product) {
     res.status(404);
     throw new Error('Product not found');
+  }
+
+  if (price <= 0) {
+    res.status(400);
+    throw new Error('Product price must be greater than 0');
+  }
+
+  if (name === process.env.SAMPLE_NAME) {
+    res.status(400);
+    throw new Error('You must specify valid product name');
+  }
+
+  if (brand === process.env.SAMPLE_NAME) {
+    res.status(400);
+    throw new Error('You must specify valid brand');
+  }
+
+  if (category === process.env.SAMPLE_NAME) {
+    res.status(400);
+    throw new Error('You must specify valid category');
+  }
+
+  if (description === process.env.SAMPLE_NAME) {
+    res.status(400);
+    throw new Error('You must specify valid description');
   }
 
   product.name = name;
