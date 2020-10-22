@@ -4,6 +4,7 @@ import {
   getProducts,
   getProductById,
   getProductsPage,
+  getProductsListPage,
   deleteProduct,
   createProduct,
   updateProduct,
@@ -20,6 +21,11 @@ router.route('/').get(getProducts);
 // @route   GET /api/products/loadPage?page=1&date=4235235&perPage=1
 // @access  Public
 router.route('/loadPage').get(getProductsPage);
+
+// @desc    Get products list
+// @route   GET /api/products/loadListPage?page=1&date=4235235&perPage=1
+// @access  Private/Admin
+router.route('/loadListPage').get(protect, admin, getProductsListPage);
 
 // @desc    Create a product
 // @route   POST /api/products

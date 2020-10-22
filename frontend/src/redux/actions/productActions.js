@@ -7,9 +7,6 @@ import {
   PRODUCT_LIST_LOAD_PAGE_REQUEST,
   PRODUCT_LIST_LOAD_PAGE_SUCCESS,
   PRODUCT_LIST_LOAD_PAGE_FAIL,
-  // PRODUCT_LIST_REQUEST,
-  // PRODUCT_LIST_SUCCESS,
-  // PRODUCT_LIST_FAIL,
   PRODUCT_DETAILS_REQUEST,
   PRODUCT_DETAILS_SUCCESS,
   PRODUCT_DETAILS_FAIL,
@@ -70,6 +67,17 @@ export const loadListProductsPage = () => {
       dispatch({ type: PRODUCT_LIST_LOAD_PAGE_REQUEST });
 
       const {
+        userLogin: { userInfo },
+      } = getState();
+
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
+
+      const {
         productListLoadPage: { date, page },
       } = getState();
 
@@ -77,7 +85,8 @@ export const loadListProductsPage = () => {
       const currentDate = date !== null ? date : new Date().getTime();
 
       const { data } = await axios.get(
-        `/api/products/loadPage?page=${nextPage}&date=${currentDate}`
+        `/api/products/loadListPage?page=${nextPage}&date=${currentDate}`,
+        config
       );
 
       dispatch({

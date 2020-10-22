@@ -3,6 +3,8 @@
 import asyncHandler from 'express-async-handler';
 
 import Product from '../models/product.js';
+import fs from 'fs';
+import path from 'path';
 
 // @desc    Get next page with products
 // @route   GET /api/products/loadPage?page=1&date=4235235&keyword=''&perPage=1
@@ -38,6 +40,35 @@ const getProductsPage = asyncHandler(async (req, res) => {
   // Get next page products
   const products = await Product.find({
     ...keyword,
+    createdAt: { $lte: dateFromMilliseconds },
+  })
+    .sort({ createdAt: 'desc' })
+    .skip((page - 1) * productsPerPage)
+    .limit(productsPerPage);
+
+  return res.status(200).send(products);
+});
+
+// @desc    Get products list
+// @route   GET /api/products/loadListPage?page=1&date=4235235&perPage=1
+// @access  Private/Admin
+const getProductsListPage = asyncHandler(async (req, res) => {
+  // Get page
+  const page = Number(req.query.page);
+  const dateInMilliseconds = Number(req.query.date);
+  const productsPerPage = req.query.perPage
+    ? Number(req.query.perPage)
+    : Number(process.env.PRODUCTS_PER_PAGE);
+
+  if (!page && !dateInMilliseconds) {
+    res.status(400);
+    throw new Error('page and date query parameters must be specified');
+  }
+
+  const dateFromMilliseconds = new Date(dateInMilliseconds);
+
+  // Get next page products
+  const products = await Product.find({
     createdAt: { $lte: dateFromMilliseconds },
   })
     .sort({ createdAt: 'desc' })
@@ -90,7 +121,20 @@ const deleteProduct = asyncHandler(async (req, res) => {
     throw new Error('Product was not found');
   }
 
+  if (product.image.split('/')[1] !== 'images') {
+    let __dirname = path.resolve();
+    const pathToDelete = path.join(__dirname, product.image);
+    fs.unlink(pathToDelete, (err) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log(`\nDeleted file: ${pathToDelete}`);
+      }
+    });
+  }
+
   await product.remove();
+
   res.send({ message: 'Product removed' });
 });
 
@@ -218,6 +262,7 @@ export {
   getProducts,
   getProductById,
   getProductsPage,
+  getProductsListPage,
   deleteProduct,
   createProduct,
   updateProduct,

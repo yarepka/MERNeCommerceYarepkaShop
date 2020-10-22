@@ -14,6 +14,7 @@ import {
 import {
   PRODUCT_UPDATE_RESET,
   PRODUCT_CREATE_RESET,
+  PRODUCT_DETAILS_RESET,
 } from '../../../redux/actions/types';
 
 import './ProductEdit.css';
@@ -56,6 +57,13 @@ const ProductEdit = ({ match, history }) => {
       setDescription(product.description);
     }
   }, [productId, product.id]);
+
+  useEffect(() => {
+    return () => {
+      dispatch({ type: PRODUCT_DETAILS_RESET });
+      dispatch({ type: PRODUCT_UPDATE_RESET });
+    };
+  }, []);
 
   const onImageChangeHandler = useCallback(
     (e) => {
